@@ -3,6 +3,66 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-05-28 — Phase 2 daily-scrape Action built and locally simulated
+- Built the single Phase 2 file per `specs/PHASE2_trial_finder_automation.md`:
+  **`.github/workflows/daily-scrape.yml`**. Nothing in `scraper/`, `docs/`, or `CLAUDE.md`
+  was modified — Phase 1 is the contract and stays as-is.
+- Workflow spec conformance (parsed and checked against §3 programmatically): cron
+  `0 5 * * *`, `workflow_dispatch`, `permissions: contents: write` only (no job-level
+  override), `concurrency: { group: daily-scrape, cancel-in-progress: false }`,
+  `runs-on: ubuntu-latest`, `timeout-minutes: 10`, seven step blocks in spec order
+  (checkout v4 fetch-depth 1, setup-python v5 / 3.12 with pip cache keyed on
+  `scraper/requirements.txt`, install, scrape, fingerprint diff, conditional commit
+  + push, always-on run summary).
+- **Fingerprint diff** — Python inline, exactly as the spec example shows: hash the
+  `studies` array with `scraped_at` stripped from each entry. Two robustness tweaks
+  on top of the spec example: sort the stripped list by `id` so a sitemap reorder
+  alone doesn't trigger a commit, and use `printf '%s\n'` with env-var passing for the
+  multiline slug list in the summary step so values can't shell-inject.
+- **Verified locally** (what's possible without a real Actions run):
+  - YAML parses cleanly; every spec §3 check ticked.
+  - Diff Scenario A (no real change, only new timestamps): `changed=false`,
+    `slugs=[]` — exactly what a daily no-op run produces. No commit path taken.
+  - Diff Scenario B (one study's `nights` flipped in the "old" copy): `changed=true`,
+    `slugs=['spaulding-thunder-2']` — only the truly-different slug listed.
+  - Diff Scenario C (no previous file): treated as `changed=true`, all 4 slugs listed.
+  - Fail-loud re-confirmed end-to-end: pointing `SITEMAP_URL` at a 404 endpoint
+    makes `scrape.py` exit 2 and leave `docs/studies.json` byte-identical (md5
+    unchanged before/after). The workflow runs `python scraper/scrape.py` without
+    any `continue-on-error`, so that exit code propagates and the Action goes red.
+- **Verification steps that need an actual Actions run** (cannot be done locally;
+  the owner runs these once after pushing):
+  - Spec step 2 — manual `workflow_dispatch` on the no-op path; summary reads
+    "No change — 4 studies, fingerprint unchanged"; no new commit on `main`.
+  - Spec step 3 — temporary commit that flips a `nights` value to a clearly-wrong
+    number, manual dispatch, confirm the bot commit lands and Pages rebuilds.
+  - Spec step 4 — temporarily push a broken `SITEMAP_URL`, manual dispatch, confirm
+    the Action goes red and no commit appears. Revert.
+- Files touched (this session): **new** `.github/workflows/daily-scrape.yml`;
+  **rewritten** `docs/phase_current.md` per spec §5; **prepended** this entry to
+  `progress.md`. `docs/studies.json` was overwritten by an interim local scraper
+  rerun during simulation but the study data is identical to the previous commit
+  (only timestamps differ — that's the no-op scenario the workflow is designed to
+  catch and *not* commit).
+- **Owner action items** (cannot be done by Claude — only the owner can):
+  1. **GitHub repo settings → Actions → General → Workflow permissions = "Read and
+     write permissions"**, and leave "Allow GitHub Actions to create and approve
+     pull requests" **unchecked**. The `GITHUB_TOKEN` needs write to push the
+     daily commit; PR scope is intentionally not used.
+  2. Push the repo, then trigger `daily-scrape.yml` once manually from the Actions
+     tab to verify the no-op path (run completes green, no new commit). Wait one
+     calendar day and confirm the 05:00 UTC scheduled run also fires.
+  3. (Carry-over from Phase 1) Enable GitHub Pages on `/docs` if not already done,
+     and confirm the page loads on iPhone. Pages auto-rebuilds whenever
+     `docs/studies.json` changes on `main`, so this is the trigger for the daily
+     refresh to be visible.
+- **Recommended next step**: owner does the workflow-permissions toggle, pushes,
+  and triggers a manual run. Once both green-on-dispatch and red-on-broken-sitemap
+  are confirmed in the Actions tab, mark the remaining Phase 2 checkboxes done and
+  start drafting the Phase 3 spec (multi-clinic + state filter + dates_raw rendering).
+
+---
+
 ## 2026-05-28 — Phase 1 built end-to-end (Spaulding live, 4 studies)
 - Built the full Phase 1 pipeline per `specs/PHASE1_trial_finder_build.md`. Scraper runs
   manually against the live Spaulding site and writes a valid `docs/studies.json`; static

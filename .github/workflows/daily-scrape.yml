@@ -1,0 +1,152 @@
+name: Daily Spaulding scrape
+
+# Re-scrape spauldingpays.com once a day, and commit docs/studies.json ONLY when
+# the actual study data changed (ignoring per-run timestamps). A broken scrape
+# fails loudly here so it shows red in the Actions tab.
+#
+# See specs/PHASE2_trial_finder_automation.md for the design rationale — do not
+# widen permissions, do not add a pull_request trigger, do not push on no-op runs.
+
+on:
+  schedule:
+    # 05:00 UTC daily ≈ midnight US Central (drifts ±1h with DST). GitHub may
+    # delay scheduled runs by minutes to ~1 hour under load; that's expected.
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
+
+      - name: Run the scraper
+        # The Phase 1 scraper exits non-zero on empty/invalid output and refuses
+        # to overwrite docs/studies.json in that case — so reaching this step's
+        # success is a real signal that the scrape produced a valid file.
+        run: python scraper/scrape.py
+
+      - name: Detect a real change
+        id: diff
+        # Compare the studies array against the previously-committed JSON,
+        # ignoring per-entry scraped_at and top-level generated_at so a daily
+        # no-op run does not produce a commit.
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/scrape-diff
+          if git show HEAD:docs/studies.json > /tmp/scrape-diff/old.json 2>/dev/null; then
+            echo "Old studies.json retrieved from HEAD."
+          else
+            echo "No previous docs/studies.json at HEAD — treating as changed."
+            echo "" > /tmp/scrape-diff/old.json
+          fi
+          python - <<'PY'
+          import hashlib, json, os
+          def load(p):
+              try:
+                  with open(p, "r", encoding="utf-8") as f:
+                      return json.load(f)
+              except (FileNotFoundError, json.JSONDecodeError):
+                  return None
+          def strip(s):
+              return {k: v for k, v in s.items() if k != "scraped_at"}
+          def fingerprint(data):
+              if not data:
+                  return None
+              studies = data.get("studies", []) or []
+              stripped = sorted(
+                  (strip(s) for s in studies),
+                  key=lambda s: s.get("id", ""),
+              )
+              return hashlib.sha256(
+                  json.dumps(stripped, sort_keys=True, ensure_ascii=False).encode("utf-8")
+              ).hexdigest()
+          new = load("docs/studies.json")
+          old = load("/tmp/scrape-diff/old.json")
+          if new is None:
+              raise SystemExit("docs/studies.json missing or unparseable after scrape")
+          new_fp = fingerprint(new)
+          old_fp = fingerprint(old)
+          count = len(new.get("studies", []) or [])
+          changed = (old is None) or (old_fp != new_fp)
+          # Compute the set of changed study slugs (ids) for the run summary.
+          def by_id(data):
+              return {
+                  s.get("id"): strip(s)
+                  for s in (data or {}).get("studies", []) or []
+              }
+          ob, nb = by_id(old), by_id(new)
+          slugs = sorted(
+              sid for sid in set(ob) | set(nb) if ob.get(sid) != nb.get(sid)
+          )
+          out = os.environ["GITHUB_OUTPUT"]
+          with open(out, "a", encoding="utf-8") as f:
+              f.write(f"changed={'true' if changed else 'false'}\n")
+              f.write(f"count={count}\n")
+              f.write(f"old_fp={old_fp or ''}\n")
+              f.write(f"new_fp={new_fp or ''}\n")
+              f.write("slugs<<EOF\n")
+              f.write("\n".join(slugs))
+              f.write("\nEOF\n")
+          print(f"changed={changed} count={count} slugs={slugs}")
+          print(f"old_fp={old_fp}")
+          print(f"new_fp={new_fp}")
+          PY
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          COUNT: ${{ steps.diff.outputs.count }}
+        run: |
+          set -euo pipefail
+          git config user.name  "trial-finder-bot"
+          git config user.email "trial-finder-bot@users.noreply.github.com"
+          git add docs/studies.json
+          git commit -m "data: daily Spaulding refresh (${COUNT} studies)"
+          git push
+
+      - name: Run summary
+        if: always()
+        env:
+          CHANGED: ${{ steps.diff.outputs.changed }}
+          COUNT:   ${{ steps.diff.outputs.count }}
+          SLUGS:   ${{ steps.diff.outputs.slugs }}
+        run: |
+          set -euo pipefail
+          if [ "${CHANGED:-}" = "true" ]; then
+            {
+              echo "**Committed update** — ${COUNT} studies"
+              echo ""
+              echo "Changed slugs:"
+              if [ -n "${SLUGS:-}" ]; then
+                printf '%s\n' "$SLUGS" | sed 's/^/- /'
+              else
+                echo "- (none — first commit)"
+              fi
+            } >> "$GITHUB_STEP_SUMMARY"
+          elif [ -n "${CHANGED:-}" ]; then
+            echo "**No change** — ${COUNT} studies, fingerprint unchanged" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**Scrape failed before the diff step ran.** See logs above." >> "$GITHUB_STEP_SUMMARY"
+          fi

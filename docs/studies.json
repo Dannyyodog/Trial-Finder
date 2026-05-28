@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-28T19:22:19Z",
+  "generated_at": "2026-05-28T20:32:49Z",
   "clinic_count": 1,
   "study_count": 4,
   "studies": [
@@ -24,7 +24,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/opalpart2/",
-      "scraped_at": "2026-05-28T19:22:15Z"
+      "scraped_at": "2026-05-28T20:32:44Z"
     },
     {
       "id": "spaulding-penny",
@@ -47,7 +47,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/penny/",
-      "scraped_at": "2026-05-28T19:22:16Z"
+      "scraped_at": "2026-05-28T20:32:46Z"
     },
     {
       "id": "spaulding-quill",
@@ -70,7 +70,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/quill/",
-      "scraped_at": "2026-05-28T19:22:18Z"
+      "scraped_at": "2026-05-28T20:32:47Z"
     },
     {
       "id": "spaulding-thunder-2",
@@ -93,7 +93,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/thunder-2/",
-      "scraped_at": "2026-05-28T19:22:19Z"
+      "scraped_at": "2026-05-28T20:32:49Z"
     }
   ]
 }
