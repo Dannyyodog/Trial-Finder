@@ -41,6 +41,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r scraper/requirements.txt
 
+      - name: Install Playwright browsers
+        # AbbVie's site is a JS-rendered SPA; the abbvie_grayslake module uses
+        # Playwright (Chromium) under the hood. ~30s on a cold runner.
+        run: python -m playwright install --with-deps chromium
+
       - name: Run the scraper
         # The Phase 1 scraper exits non-zero on empty/invalid output and refuses
         # to overwrite docs/studies.json in that case — so reaching this step's
