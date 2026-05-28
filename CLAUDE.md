@@ -23,3 +23,7 @@ intentionally on the back burner.
   are `null` — never fabricate values.
 - Respect robots.txt; throttle (~1 req/sec); send a descriptive User-Agent.
 - Do not add GitHub Actions automation until a Phase 2 spec says so.
+- **Per-clinic isolation:** in the multi-clinic orchestrator, any clinic that throws is logged
+  loud, skipped, and reported in the run summary; remaining clinics still publish their data.
+  The Action exits non-zero on any clinic failure (so it goes red) but does not wipe successful
+  clinics' studies from `studies.json`.

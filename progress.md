@@ -3,6 +3,94 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-05-28 — Phase 3 multi-clinic + state filter + collapsible schedule
+- Built Phase 3 end-to-end per `specs/PHASE3_trial_finder_clinics_and_state.md`. Committed
+  step-by-step in the order the spec mandates so each clinic has a clean rollback point.
+- **Schema gained `state`** (2-letter USPS code). `SCHEMA_KEYS` updated, validator now
+  rejects studies whose state is missing or not `[A-Z]{2}`. Spaulding emits `WI`; every
+  new clinic emits its own.
+- **Per-clinic isolation in `scrape.py`**. The orchestrator now runs each clinic inside
+  `try/except`; failures are logged with traceback + URL context and surfaced in a
+  summary table:
+  ```
+  Spaulding Clinical  OK    4 studies
+  Fortrea Madison     OK    6 studies
+  Nucleus St. Paul    OK    13 studies
+  ICON Lenexa         OK    4 studies
+  Celerion Lincoln    OK    3 studies
+  AbbVie Grayslake    OK    2 studies
+  6 of 6 clinics succeeded; 32 studies total. Wrote docs/studies.json. Exiting 0.
+  ```
+  Write rules: ≥1 clinic OK AND total studies > 0; exit 0 only if every clinic
+  succeeded, otherwise non-zero even when the file was written (Action stays red,
+  data still updates for what worked). Smoke-tested by injecting `raise` into
+  spaulding.scrape(): orchestrator caught it, kept previous studies.json
+  (md5 unchanged), exited 5.
+- **Five new clinic modules** (selectors derived from the live DOM, not assumed):
+  - **fortrea-madison** (6 studies). Discovery: `/en-us/clinical-research/browse-studies`
+    (12 candidate URLs → filtered to Madison via the per-page Location card → 6 kept).
+    Parses labeled `.info` cells (Compensation/Gender/Age/Dates) + "Additional Details"
+    block.
+  - **nucleus-stpaul** (13 studies). Discovery: WordPress `/post-trial-sitemap.xml` (57
+    trials → kept only those whose Location card mentions United States / Minneapolis /
+    St. Paul / MN). Fields from header card (Phase/Remuneration/Location) + the
+    "Are you a match?" eligibility card (Age, Gender, Commitment).
+  - **icon-lenexa** (4 studies). Discovery: homepage + `/All-Clinical-Research-Studies/`
+    (`/Lenexa/Clinical-Research-Study/<id>/`). Pages aren't structured, so anchored
+    regexes parse the prose: title after "STUDY DETAILS", "Up to $X", "1 stay of X
+    nights and Y outpatient visits", "Age N - M", "Male/Female". `flag_childbearing`
+    fires on the "non-childbearing potential" boilerplate.
+  - **celerion-lincoln** (3 studies). Discovery:
+    `/location/clinical-trials-lincoln-nebraska`. helpresearch.com sets
+    `Crawl-delay: 10` so the module sleeps an extra 9s before each request on top
+    of common.fetch's 1s baseline. Labeled fields (Stipend / Study Length /
+    Requirement / Age / Start/End Date) parsed with lookahead terminators so values
+    don't bleed; "Study Length: 20 - Night Stay & 2 Returns" → nights=20, visits=2.
+  - **abbvie-grayslake** (2 studies). The site is an Angular SPA hash-routed at
+    `/#/available-trials`; requests/BS4 returns an empty shell. Module lazy-imports
+    Playwright inside `scrape()`, boots headless Chromium, navigates, waits for
+    networkidle + a settle window + the `.trial-row` selector, then hands the
+    rendered HTML to BeautifulSoup like any other module. Returns `[]` cleanly if
+    the public site shows no trials. Current run: 2 trials (Buffalo + Celery).
+- **Workflow updated** with the Playwright install step between `Install dependencies`
+  and `Run the scraper`: `python -m playwright install --with-deps chromium`. Adds
+  ~30s to a cold daily run; nothing else in the workflow changed (permissions,
+  concurrency, fingerprint diff, conditional commit all untouched).
+- **Frontend** got the three Phase 3 §8 changes:
+  - **Clinic dropdown → State dropdown** with `(N)` counts, alphabetically sorted.
+    Today: `IL (2)`, `KS (4)`, `MN (13)`, `NE (3)`, `WI (10)`.
+  - **Collapsible `<details class="schedule">`** below the meta grid, full card
+    width, `white-space: pre-wrap` so multi-line cohort schedules read naturally.
+    Closed shows `▸ Schedule`; open shows `▾ Schedule` and the body. Cards with
+    `dates_raw=null` get no Schedule control at all (today: 12 of 32 cards).
+  - **Status line**: `"X shown · Y total across N clinics · updated <date>"`
+    (today: `32 shown · 32 total across 6 clinics · updated May 28, 2026`).
+  - Verified by spinning up the preview server, programmatically setting filters
+    and reading back the visible cards: WI filter → 10 cards, KS filter → 4 cards
+    (both match dropdown counts).
+- **CLAUDE.md** gained the per-clinic isolation rule under Hard rules.
+- **Files touched**: `CLAUDE.md`, `progress.md`, `docs/phase_current.md`,
+  `docs/index.html`, `docs/studies.json` (now 32 studies × 6 clinics),
+  `scraper/common.py`, `scraper/scrape.py`, `scraper/requirements.txt`,
+  `scraper/clinics/spaulding.py` (emit state), `.github/workflows/daily-scrape.yml`
+  (Playwright step), and **new**: `scraper/clinics/fortrea_madison.py`,
+  `scraper/clinics/nucleus_stpaul.py`, `scraper/clinics/icon_lenexa.py`,
+  `scraper/clinics/celerion_lincoln.py`, `scraper/clinics/abbvie_grayslake.py`,
+  `specs/PHASE3_trial_finder_clinics_and_state.md`. Eight commits on `main`,
+  one per spec §5 step.
+- **Verification deferred to the owner** (can't be done locally):
+  - Push and re-run the daily workflow manually. Confirm: (a) no-op rerun
+    produces zero commits + "No change" in the summary; (b) data updates land
+    as `data: daily refresh (N studies)` commits authored by `trial-finder-bot`;
+    (c) iPhone view of the deployed site works (state filter, Schedule
+    expansion, no horizontal scrollbars).
+- **Recommended next step**: owner pushes the branch, triggers
+  `daily-scrape.yml` once manually, watches the summary table appear, and
+  confirms a green/red signal. Phase 4 candidates: per-state aggregate cards
+  on the index, search-by-keyword, or a dedicated "near me" geo filter.
+
+---
+
 ## 2026-05-28 — Phase 2 daily-scrape Action built and locally simulated
 - Built the single Phase 2 file per `specs/PHASE2_trial_finder_automation.md`:
   **`.github/workflows/daily-scrape.yml`**. Nothing in `scraper/`, `docs/`, or `CLAUDE.md`
