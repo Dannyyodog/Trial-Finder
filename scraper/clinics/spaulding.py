@@ -44,6 +44,7 @@ BASE = "https://www.spauldingpays.com"
 SITEMAP_URL = BASE + "/sitemap.xml"
 CLINIC_NAME = "Spaulding Clinical"
 LOCATION = "West Bend, WI"
+STATE = "WI"
 CLINIC_SLUG = "spaulding"
 
 STUDY_URL_RE = re.compile(r"^https?://www\.spauldingpays\.com/study/[^/]+/?$")
@@ -196,6 +197,7 @@ def _parse_study(html: str, url: str) -> dict:
         "id": study_id,
         "clinic": CLINIC_NAME,
         "location": LOCATION,
+        "state": STATE,
         "title": title,
         "compensation": compensation,
         "compensation_raw": comp_raw,

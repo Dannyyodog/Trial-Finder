@@ -29,6 +29,7 @@ SCHEMA_KEYS: tuple[str, ...] = (
     "id",
     "clinic",
     "location",
+    "state",
     "title",
     "compensation",
     "compensation_raw",
@@ -261,6 +262,12 @@ def validate_study(d: dict) -> list[str]:
 
     for k in ("id", "clinic", "location", "title", "url", "scraped_at"):
         _must_str(k)
+    # `state` is a 2-letter USPS code; it is never null (clinic location is always known).
+    state = d.get("state")
+    if not isinstance(state, str) or not re.fullmatch(r"[A-Z]{2}", state or ""):
+        problems.append(
+            f"state must be a 2-letter USPS code (uppercase), got {state!r}"
+        )
     for k in ("compensation_raw", "screening_date_raw", "dates_raw", "sex_notes", "age_raw"):
         _opt_str(k)
     for k in ("compensation", "nights", "visits", "age_min", "age_max"):
