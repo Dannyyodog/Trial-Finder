@@ -229,6 +229,43 @@
     gap: 8px;
     margin-top: 10px;
   }
+
+  /* Collapsible schedule block, full card width, sits below the meta grid */
+  .schedule {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    border-top: 1px dashed var(--rule);
+    padding-top: 10px;
+  }
+  .schedule > summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+  .schedule > summary::-webkit-details-marker { display: none; }
+  .schedule > summary::before {
+    content: "▸";
+    transition: transform .15s ease;
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+  .schedule[open] > summary::before { content: "▾"; }
+  .schedule .schedule-body {
+    margin-top: 8px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 10px 12px;
+    line-height: 1.45;
+  }
   .badge {
     font-size: 12px;
     font-weight: 600;
@@ -289,8 +326,8 @@
         </select>
       </div>
       <div class="field">
-        <label for="clinic">Clinic</label>
-        <select id="clinic"><option value="">All clinics</option></select>
+        <label for="state">State</label>
+        <select id="state"><option value="">All states</option></select>
       </div>
       <div class="field">
         <label for="sex">Open to</label>
@@ -380,17 +417,21 @@ async function load() {
   }
   document.getElementById("updated").textContent =
     "Last updated " + fmtDate(RAW.generated_at);
-  buildClinicOptions();
+  buildStateOptions();
   render();
 }
 
-function buildClinicOptions() {
-  const sel = document.getElementById("clinic");
-  const names = Array.from(new Set(STUDIES.map(s => s.clinic).filter(Boolean))).sort();
-  for (const n of names) {
+function buildStateOptions() {
+  const sel = document.getElementById("state");
+  const counts = new Map();
+  for (const s of STUDIES) {
+    if (s.state) counts.set(s.state, (counts.get(s.state) || 0) + 1);
+  }
+  const states = Array.from(counts.keys()).sort();
+  for (const st of states) {
     const opt = document.createElement("option");
-    opt.value = n;
-    opt.textContent = n;
+    opt.value = st;
+    opt.textContent = `${st} (${counts.get(st)})`;
     sel.appendChild(opt);
   }
 }
@@ -399,7 +440,7 @@ function buildClinicOptions() {
 function readFilters() {
   return {
     sort:       document.getElementById("sort").value,
-    clinic:     document.getElementById("clinic").value,
+    state:      document.getElementById("state").value,
     sex:        document.getElementById("sex").value,
     age:        numOrNull(document.getElementById("age").value),
     minpay:     numOrNull(document.getElementById("minpay").value),
@@ -417,7 +458,7 @@ function numOrNull(v) {
 }
 
 function passes(s, f) {
-  if (f.clinic && s.clinic !== f.clinic) return false;
+  if (f.state && s.state !== f.state) return false;
   if (f.hideSpinal && s.flag_spinal) return false;
   if (f.hideChild  && s.flag_childbearing) return false;
   if (f.healthyOnly && !s.healthy) return false;
@@ -473,8 +514,11 @@ function render() {
   const results = document.getElementById("results");
   const status  = document.getElementById("status");
 
+  const clinicCount = new Set(STUDIES.map(s => s.clinic).filter(Boolean)).size;
   status.innerHTML =
-    `<strong>${shown.length}</strong> shown · <strong>${STUDIES.length}</strong> total` +
+    `<strong>${shown.length}</strong> shown · ` +
+    `<strong>${STUDIES.length}</strong> total across ` +
+    `<strong>${clinicCount}</strong> clinic${clinicCount === 1 ? "" : "s"}` +
     (RAW && RAW.generated_at ? ` · updated ${escapeHtml(fmtDate(RAW.generated_at))}` : "");
 
   if (!STUDIES.length) {
@@ -528,15 +572,15 @@ function renderCard(s, idx) {
         <div class="row"><span class="k">Open to</span><span class="v">${escapeHtml(sexLine)}</span></div>
         <div class="row"><span class="k">Ages</span><span class="v">${escapeHtml(dash(s.age_raw))}</span></div>
         <div class="row"><span class="k">Screening</span><span class="v">${escapeHtml(dash(s.screening_date_raw))}</span></div>
-        <div class="row"><span class="k">Dates</span><span class="v">${escapeHtml(dash(s.dates_raw))}</span></div>
       </div>
+      ${s.dates_raw ? `<details class="schedule"><summary>Schedule</summary><div class="schedule-body">${escapeHtml(s.dates_raw)}</div></details>` : ""}
       ${badges.length ? `<div class="badges">${badges.join("")}</div>` : ""}
     </article>
   `;
 }
 
 // ---------- wire up ----------
-for (const id of ["sort","clinic","sex","age","minpay","maxnights","maxvisits",
+for (const id of ["sort","state","sex","age","minpay","maxnights","maxvisits",
                   "hide_spinal","hide_child","healthy_only"]) {
   document.getElementById(id).addEventListener("input", render);
   document.getElementById(id).addEventListener("change", render);
