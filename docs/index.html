@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:    #f6f2e9;
+    --paper-2:  #efe8d8;
+    --ink:      #20251f;
+    --ink-soft: #4a4f49;
+    --teal:     #0e5c52;
+    --teal-2:   #d7e7e2;
+    --rule:     #d8cfba;
+    --red:      #b23a16;
+    --amber:    #8a5a00;
+    --green:    #2f6b3d;
+    --card:     #fffcf3;
+    --shadow:   0 1px 2px rgba(32,37,31,.06), 0 8px 24px rgba(32,37,31,.06);
+    --radius:   14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--teal); }
+  a:hover { text-decoration-thickness: 2px; }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 24px;
+    margin-bottom: 28px;
+  }
+  .kicker {
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-size: 12px;
+    color: var(--teal);
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.02;
+    margin: 6px 0 8px;
+  }
+  h1 .finder {
+    font-style: italic;
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .subtitle {
+    color: var(--ink-soft);
+    font-size: 17px;
+    max-width: 60ch;
+    margin: 0 0 6px;
+  }
+  .updated {
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* Refine panel */
+  .refine {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px 18px 6px;
+    margin-bottom: 26px;
+  }
+  .refine h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--ink-soft);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px 16px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .field select, .field input[type="number"] {
+    font: inherit;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 8px 10px;
+    width: 100%;
+  }
+  .field select:focus, .field input:focus {
+    outline: 2px solid var(--teal);
+    outline-offset: 1px;
+  }
+  .checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    border-top: 1px dashed var(--rule);
+    padding-top: 12px;
+    margin-top: 4px;
+  }
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .check input { transform: translateY(1px); }
+
+  .status {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 4px 0 16px;
+  }
+  .status strong { color: var(--ink); }
+
+  /* Result cards */
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 6px solid var(--teal);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 18px;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: rise .35s ease forwards;
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: none; }
+  }
+  .card.flag-spinal { border-left-color: var(--red); }
+  .card .title {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .card .title a { color: var(--ink); text-decoration: none; }
+  .card .title a:hover { color: var(--teal); text-decoration: underline; }
+  .clinic {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 2px;
+  }
+  .hero-pay {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--teal);
+    text-align: right;
+    line-height: 1;
+    align-self: start;
+    white-space: nowrap;
+  }
+  .hero-pay .raw {
+    display: block;
+    font-family: "Hanken Grotesk", sans-serif;
+    font-weight: 500;
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 4px;
+  }
+  .meta {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 4px 18px;
+    margin-top: 6px;
+    border-top: 1px dashed var(--rule);
+    padding-top: 10px;
+    font-size: 14px;
+  }
+  .meta .row { display: flex; gap: 6px; }
+  .meta .k {
+    color: var(--ink-soft);
+    font-weight: 600;
+    min-width: 86px;
+  }
+  .meta .v { color: var(--ink); }
+  .badges {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: .02em;
+  }
+  .badge.green { background: #e3eed7; color: var(--green); }
+  .badge.amber { background: #f6e7c4; color: var(--amber); }
+  .badge.red   { background: #f1d2c6; color: var(--red); }
+
+  .empty {
+    background: var(--card);
+    border: 1px dashed var(--rule);
+    border-radius: var(--radius);
+    padding: 28px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+  .empty strong { color: var(--ink); }
+
+  .error {
+    background: #f7e0d6;
+    border: 1px solid #d6907a;
+    color: #6b2a14;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 540px) {
+    .card { grid-template-columns: 1fr; }
+    .hero-pay { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Paid healthy-volunteer studies</div>
+    <h1>Trial <span class="finder">Finder</span></h1>
+    <p class="subtitle">
+      Searches paid healthy-volunteer clinical studies and shows the things that matter
+      to a paid participant — payout, nights, visits — alongside medical filters.
+    </p>
+    <div class="updated" id="updated">Loading study data…</div>
+  </header>
+
+  <section class="refine" aria-label="Refine">
+    <h2>Refine</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="sort">Sort by</label>
+        <select id="sort">
+          <option value="pay_desc">Payout (high → low)</option>
+          <option value="pay_asc">Payout (low → high)</option>
+          <option value="nights_asc">Fewest nights</option>
+          <option value="visits_asc">Fewest visits</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="clinic">Clinic</label>
+        <select id="clinic"><option value="">All clinics</option></select>
+      </div>
+      <div class="field">
+        <label for="sex">Open to</label>
+        <select id="sex">
+          <option value="any">Anyone</option>
+          <option value="women">Women (sex ALL or FEMALE)</option>
+          <option value="men">Men (sex ALL or MALE)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="age">My age</label>
+        <input id="age" type="number" min="0" max="120" placeholder="optional">
+      </div>
+      <div class="field">
+        <label for="minpay">Min payout ($)</label>
+        <input id="minpay" type="number" min="0" step="100" placeholder="optional">
+      </div>
+      <div class="field">
+        <label for="maxnights">Max nights</label>
+        <input id="maxnights" type="number" min="0" placeholder="optional">
+      </div>
+      <div class="field">
+        <label for="maxvisits">Max visits</label>
+        <input id="maxvisits" type="number" min="0" placeholder="optional">
+      </div>
+    </div>
+    <div class="checks">
+      <label class="check">
+        <input id="hide_spinal" type="checkbox" checked>
+        Hide spinal-tap / lumbar-puncture studies
+      </label>
+      <label class="check">
+        <input id="hide_child" type="checkbox">
+        Hide contraception / pregnancy-requirement studies
+      </label>
+      <label class="check">
+        <input id="healthy_only" type="checkbox">
+        Healthy volunteers only
+      </label>
+    </div>
+  </section>
+
+  <div class="status" id="status"></div>
+  <main id="results" class="cards" aria-live="polite"></main>
+</div>
+
+<script>
+"use strict";
+
+// ---------- helpers ----------
+function escapeHtml(s) {
+  if (s === null || s === undefined) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+function dash(v) { return (v === null || v === undefined || v === "") ? "—" : v; }
+function fmtMoney(n) { return n == null ? "—" : "$" + n.toLocaleString("en-US"); }
+function fmtDate(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.toLocaleString("en-US", { year: "numeric", month: "short", day: "numeric" });
+}
+
+// ---------- state ----------
+let RAW = null;
+let STUDIES = [];
+
+// ---------- load ----------
+async function load() {
+  try {
+    const res = await fetch("./studies.json", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    RAW = await res.json();
+    STUDIES = Array.isArray(RAW.studies) ? RAW.studies : [];
+  } catch (e) {
+    document.getElementById("results").innerHTML =
+      `<div class="error">Couldn't load study data — if you just opened the file directly,
+       view it through the published web link instead. (${escapeHtml(e.message)})</div>`;
+    document.getElementById("status").textContent = "";
+    document.getElementById("updated").textContent = "";
+    return;
+  }
+  document.getElementById("updated").textContent =
+    "Last updated " + fmtDate(RAW.generated_at);
+  buildClinicOptions();
+  render();
+}
+
+function buildClinicOptions() {
+  const sel = document.getElementById("clinic");
+  const names = Array.from(new Set(STUDIES.map(s => s.clinic).filter(Boolean))).sort();
+  for (const n of names) {
+    const opt = document.createElement("option");
+    opt.value = n;
+    opt.textContent = n;
+    sel.appendChild(opt);
+  }
+}
+
+// ---------- filter + sort ----------
+function readFilters() {
+  return {
+    sort:       document.getElementById("sort").value,
+    clinic:     document.getElementById("clinic").value,
+    sex:        document.getElementById("sex").value,
+    age:        numOrNull(document.getElementById("age").value),
+    minpay:     numOrNull(document.getElementById("minpay").value),
+    maxnights:  numOrNull(document.getElementById("maxnights").value),
+    maxvisits:  numOrNull(document.getElementById("maxvisits").value),
+    hideSpinal: document.getElementById("hide_spinal").checked,
+    hideChild:  document.getElementById("hide_child").checked,
+    healthyOnly:document.getElementById("healthy_only").checked,
+  };
+}
+function numOrNull(v) {
+  if (v === "" || v === null || v === undefined) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+function passes(s, f) {
+  if (f.clinic && s.clinic !== f.clinic) return false;
+  if (f.hideSpinal && s.flag_spinal) return false;
+  if (f.hideChild  && s.flag_childbearing) return false;
+  if (f.healthyOnly && !s.healthy) return false;
+
+  if (f.sex === "women" && !(s.sex === "ALL" || s.sex === "FEMALE")) return false;
+  if (f.sex === "men"   && !(s.sex === "ALL" || s.sex === "MALE"))   return false;
+
+  if (f.age !== null) {
+    // Hide studies whose [age_min, age_max] excludes this age.
+    if (s.age_min != null && f.age < s.age_min) return false;
+    if (s.age_max != null && f.age > s.age_max) return false;
+  }
+
+  if (f.minpay !== null) {
+    // Hide null-payout studies when a min is set; otherwise show them.
+    if (s.compensation == null) return false;
+    if (s.compensation < f.minpay) return false;
+  }
+
+  if (f.maxnights !== null) {
+    if (s.nights != null && s.nights > f.maxnights) return false;
+  }
+  if (f.maxvisits !== null) {
+    if (s.visits != null && s.visits > f.maxvisits) return false;
+  }
+
+  return true;
+}
+
+function sortKey(s, sort) {
+  switch (sort) {
+    case "pay_asc":    return [s.compensation ?? Infinity];
+    case "nights_asc": return [s.nights ?? Infinity];
+    case "visits_asc": return [s.visits ?? Infinity];
+    case "pay_desc":
+    default:           return [-(s.compensation ?? -Infinity)];
+  }
+}
+
+// ---------- render ----------
+function render() {
+  const f = readFilters();
+  const shown = STUDIES.filter(s => passes(s, f));
+  shown.sort((a, b) => {
+    const ka = sortKey(a, f.sort), kb = sortKey(b, f.sort);
+    for (let i = 0; i < ka.length; i++) {
+      if (ka[i] < kb[i]) return -1;
+      if (ka[i] > kb[i]) return 1;
+    }
+    return 0;
+  });
+
+  const results = document.getElementById("results");
+  const status  = document.getElementById("status");
+
+  status.innerHTML =
+    `<strong>${shown.length}</strong> shown · <strong>${STUDIES.length}</strong> total` +
+    (RAW && RAW.generated_at ? ` · updated ${escapeHtml(fmtDate(RAW.generated_at))}` : "");
+
+  if (!STUDIES.length) {
+    results.innerHTML =
+      `<div class="empty"><strong>No studies in the data file yet.</strong><br>
+       Run <code>python scraper/scrape.py</code> to populate it.</div>`;
+    return;
+  }
+  if (!shown.length) {
+    results.innerHTML =
+      `<div class="empty"><strong>No studies match the current filters.</strong><br>
+       Try loosening the filters above — e.g. clear "Min payout" or uncheck "Hide spinal-tap".</div>`;
+    return;
+  }
+
+  results.innerHTML = shown.map((s, idx) => renderCard(s, idx)).join("");
+}
+
+function renderCard(s, idx) {
+  const showSpinalRedBorder = s.flag_spinal;
+  const cls = "card" + (showSpinalRedBorder ? " flag-spinal" : "");
+  const delay = Math.min(idx, 8) * 40;
+
+  const sexText = s.sex === "ALL" ? "Any" :
+                  s.sex === "FEMALE" ? "Female" :
+                  s.sex === "MALE" ? "Male" : dash(s.sex);
+  const sexLine = sexText + (s.sex_notes ? ` (${escapeHtml(s.sex_notes)})` : "");
+
+  const url = s.url || "#";
+  const badges = [];
+  if (s.healthy)         badges.push('<span class="badge green">Healthy volunteers OK</span>');
+  if (s.flag_spinal)     badges.push('<span class="badge red">Mentions spinal tap / LP</span>');
+  if (s.flag_childbearing) badges.push('<span class="badge amber">Contraception / pregnancy terms</span>');
+
+  return `
+    <article class="${cls}" style="animation-delay:${delay}ms">
+      <div>
+        <h3 class="title">
+          <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title || "Untitled")}</a>
+        </h3>
+        <div class="clinic">${escapeHtml(s.clinic || "—")} · ${escapeHtml(s.location || "—")}</div>
+      </div>
+      <div class="hero-pay">
+        ${fmtMoney(s.compensation)}
+        <span class="raw">${escapeHtml(dash(s.compensation_raw))}</span>
+      </div>
+      <div class="meta">
+        <div class="row"><span class="k">Type</span><span class="v">${escapeHtml(dash(s.study_type))}</span></div>
+        <div class="row"><span class="k">Nights</span><span class="v">${dash(s.nights)}</span></div>
+        <div class="row"><span class="k">Visits</span><span class="v">${dash(s.visits)}</span></div>
+        <div class="row"><span class="k">Open to</span><span class="v">${escapeHtml(sexLine)}</span></div>
+        <div class="row"><span class="k">Ages</span><span class="v">${escapeHtml(dash(s.age_raw))}</span></div>
+        <div class="row"><span class="k">Screening</span><span class="v">${escapeHtml(dash(s.screening_date_raw))}</span></div>
+        <div class="row"><span class="k">Dates</span><span class="v">${escapeHtml(dash(s.dates_raw))}</span></div>
+      </div>
+      ${badges.length ? `<div class="badges">${badges.join("")}</div>` : ""}
+    </article>
+  `;
+}
+
+// ---------- wire up ----------
+for (const id of ["sort","clinic","sex","age","minpay","maxnights","maxvisits",
+                  "hide_spinal","hide_child","healthy_only"]) {
+  document.getElementById(id).addEventListener("input", render);
+  document.getElementById(id).addEventListener("change", render);
+}
+
+load();
+</script>
+</body>
+</html>
