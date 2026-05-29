@@ -54,8 +54,14 @@ _US_LOCATION_HINT_RE = re.compile(
     r"(united states|usa|minneapolis|st\.?\s*paul|minnesota|\bmn\b)",
     flags=re.IGNORECASE,
 )
-# Status text that means "open to new participants right now".
-_RECRUITING_RE = re.compile(r"recruit", re.IGNORECASE)
+# Status text that explicitly marks a trial as no longer recruiting. Tested
+# against "Recruitment Closed", "Recruiting Closed", "Closed", "Completed",
+# "No Longer Recruiting", "Finished". Anything else (including the common
+# "Currently Recruiting" / "Recruiting") is treated as open.
+_CLOSED_RE = re.compile(
+    r"\b(closed|completed|finished|no longer recruiting|not recruiting)\b",
+    re.IGNORECASE,
+)
 
 
 def scrape() -> list[dict]:
@@ -143,7 +149,7 @@ def _parse_study(html: str, url: str) -> tuple[str, dict | None]:
         return "non_us", None
 
     status = header_pairs.get("Phase") or header_pairs.get("Status") or ""
-    if status and not _RECRUITING_RE.search(status):
+    if status and _CLOSED_RE.search(status):
         return "not_recruiting", None
 
     title = _study_title(soup, url)
