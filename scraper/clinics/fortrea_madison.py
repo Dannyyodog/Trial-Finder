@@ -159,14 +159,24 @@ def _parse_study(html: str, url: str) -> dict | None:
     dates_parts = [p for p in (dates_struct, dates_extra) if p]
     dates_raw = "; ".join(dates_parts) if dates_parts else None
 
-    nights = _maybe_int(_SLUG_NIGHTS_RE, slug)
-    visits = _maybe_int(_SLUG_OPVS_RE, slug)
+    # Phase 3.1: derive nights/visits/study_type from the prose "Additional
+    # Details" block on top of any URL-slug-based hints. The slug values were
+    # only ever set when the slug happened to contain "<N>-nights" / "<N>-opvs"
+    # phrasings (rare); the prose pass is the reliable signal.
+    nights_slug = _maybe_int(_SLUG_NIGHTS_RE, slug)
+    visits_slug = _maybe_int(_SLUG_OPVS_RE, slug)
+    nights_prose, visits_prose = _derive_from_additional_details(soup, url)
 
-    if nights and nights > 0 and visits and visits > 0:
+    # Prefer prose-derived values when present; only fall back to slug when prose
+    # didn't expose anything (the slug parse is opportunistic and rarely fires).
+    nights = nights_prose if nights_prose is not None else nights_slug
+    visits = visits_prose if visits_prose is not None else visits_slug
+
+    if (nights or 0) >= 1 and (visits or 0) >= 1:
         study_type = "mixed"
-    elif nights and nights > 0:
+    elif (nights or 0) >= 1:
         study_type = "inpatient"
-    elif visits and visits > 0:
+    elif (visits or 0) >= 1:
         study_type = "outpatient"
     else:
         study_type = "unknown"
@@ -273,6 +283,216 @@ def _extract_additional_details(soup: BeautifulSoup) -> str | None:
             if t:
                 lines.append(t)
     return " | ".join(lines) if lines else None
+
+
+# --- Phase 3.1: prose-derived nights / visits ------------------------------
+
+# Headings that introduce a *visit* list. "Phone Calls" is intentionally NOT
+# here — phone calls aren't visits per the schema.
+_VISITS_HEADING_RE = re.compile(
+    r"\bfollow[- ]?up\s+visits?\b",
+    re.IGNORECASE,
+)
+_POTENTIAL_HEADING_RE = re.compile(
+    r"\bpotential\s+follow[- ]?ups?\b",
+    re.IGNORECASE,
+)
+# Headings that end the visits section if we encounter them.
+_STOP_HEADING_RE = re.compile(
+    r"\bphone\s+calls?\b|\bdesigns?\s+are\s+selected\b",
+    re.IGNORECASE,
+)
+
+# Check-in/Check-out lines (handle both "Check-in:" and "Check in:" forms).
+_CHECKIN_RE = re.compile(
+    r"check[\s\-]?in\s*:\s*([A-Za-z]+\.?\s+\d{1,2}(?:[a-z]{2})?(?:,\s*\d{4})?|\d{1,2}/\d{1,2}/\d{2,4})",
+    re.IGNORECASE,
+)
+_CHECKOUT_RE = re.compile(
+    r"check[\s\-]?out\s*:\s*([A-Za-z]+\.?\s+\d{1,2}(?:[a-z]{2})?(?:,\s*\d{4})?|\d{1,2}/\d{1,2}/\d{2,4})",
+    re.IGNORECASE,
+)
+
+# A date fragment inside a bullet ("June 21", "21", "Jun 5", "Sep 19th").
+_DATE_TOKEN_RE = re.compile(
+    r"^(?:(?P<m>[A-Za-z]+\.?)\s+)?(?P<d>\d{1,2})(?:st|nd|rd|th)?$",
+)
+
+
+def _derive_from_additional_details(
+    soup: BeautifulSoup,
+    url: str,
+) -> tuple[int | None, int | None]:
+    """Phase 3.1 patch: read nights and visits from the prose body.
+
+    Returns (nights, visits). Either may be None when not confidently found —
+    that's the same null-when-unknown rule the schema uses everywhere else.
+    """
+    section_siblings = _find_additional_details_siblings(soup)
+    if not section_siblings:
+        return None, None
+
+    # Joined text of the whole section — used for nights parsing only.
+    section_text = " ".join(
+        " ".join(s.get_text(" ", strip=True).split())
+        for s in section_siblings
+        if hasattr(s, "get_text")
+    )
+
+    nights = _parse_nights_from_section(section_text, url)
+    visits = _parse_visits_from_section(section_siblings, url)
+    return nights, visits
+
+
+def _find_additional_details_siblings(soup: BeautifulSoup) -> list:
+    """Return the list of sibling Tags between the Additional Details h2 and
+    the next h1/h2 (BMI Calculator, etc.). Strictly siblings — no descendants."""
+    h = next(
+        (h for h in soup.find_all(["h2", "h3"])
+         if "additional details" in h.get_text(strip=True).lower()),
+        None,
+    )
+    if not h:
+        return []
+    sibs = []
+    for sib in h.next_siblings:
+        if getattr(sib, "name", None) is None:
+            # NavigableString between tags — skip whitespace-only text.
+            if str(sib).strip():
+                # rare; keep for completeness but unlikely to matter
+                continue
+            continue
+        if sib.name in ("h1", "h2"):
+            break
+        sibs.append(sib)
+    return sibs
+
+
+def _parse_nights_from_section(section_text: str, url: str) -> int | None:
+    """Compute nights from check-in / check-out dates. Returns None if either
+    is missing or the diff is implausible (<=0 or >60 days)."""
+    try:
+        from dateutil import parser as _dt
+    except ImportError:
+        # No dateutil → fall back to None silently; orchestrator still gets a
+        # valid record, just without nights derived from prose.
+        return None
+
+    cm = _CHECKIN_RE.search(section_text)
+    om = _CHECKOUT_RE.search(section_text)
+    if not cm or not om:
+        return None
+    try:
+        ci = _dt.parse(cm.group(1), fuzzy=True)
+        co = _dt.parse(om.group(1), fuzzy=True)
+    except (ValueError, OverflowError):
+        print(f"[fortrea-madison] could not parse check-in/out on {url}: "
+              f"{cm.group(1)!r} / {om.group(1)!r}")
+        return None
+    delta = (co.date() - ci.date()).days
+    # If check-out parsed to a year-earlier (rare year-rollover heuristic),
+    # add 365 days. Then validate.
+    if delta < 0:
+        delta += 365
+    if delta < 1 or delta > 60:
+        print(f"[fortrea-madison] implausible nights delta {delta} on {url} "
+              f"({cm.group(1)} -> {om.group(1)}); treating as null")
+        return None
+    return delta
+
+
+def _parse_visits_from_section(section_siblings: list, url: str) -> int | None:
+    """Count date tokens under the "Follow up Visits:" heading (and any
+    "Potential Follow-ups:" subsection), explicitly excluding "Phone Calls:".
+
+    The section's structure is a sequence of Tag siblings (mostly <p> and
+    <ul>). The "Follow up Visits:" label sits inline inside a <p>; the
+    bulleted dates are the NEXT <ul> sibling. "Potential Follow-ups:" can be
+    inline in a <p> (label + dates on the same line). "Phone Calls:" if seen
+    ends the count.
+    """
+    if not section_siblings:
+        return None
+
+    # Did the section even mention Follow up Visits?
+    joined = " ".join(
+        " ".join(s.get_text(" ", strip=True).split()) for s in section_siblings
+    )
+    if not _VISITS_HEADING_RE.search(joined):
+        return None
+
+    visits_total = 0
+    in_visits = False
+    in_potential = False
+
+    for sib in section_siblings:
+        txt = " ".join(sib.get_text(" ", strip=True).split())
+        if not txt and sib.name != "ul":
+            continue
+
+        # Section terminators — "Phone Calls:" or the designs footnote.
+        if (in_visits or in_potential) and _STOP_HEADING_RE.search(txt):
+            break
+
+        if sib.name in ("p", "h3", "h4"):
+            # Headings inside <p>: detect label transitions, then if the same
+            # paragraph also carries inline dates (the Potential Follow-ups
+            # case), count those tokens.
+            if _VISITS_HEADING_RE.search(txt):
+                in_visits, in_potential = True, False
+                continue
+            if _POTENTIAL_HEADING_RE.search(txt):
+                in_visits, in_potential = False, True
+                # Strip the label itself before counting inline dates.
+                tail = _POTENTIAL_HEADING_RE.split(txt, maxsplit=1)[-1]
+                visits_total += _count_dates_in_bullet(tail)
+                continue
+            # A non-label paragraph in the potential section may carry the
+            # inline date list (rare layout).
+            if in_potential:
+                visits_total += _count_dates_in_bullet(txt)
+            continue
+
+        if sib.name == "ul" and in_visits:
+            for li in sib.find_all("li", recursive=False) or sib.find_all("li"):
+                bullet = " ".join(li.get_text(" ", strip=True).split())
+                visits_total += _count_dates_in_bullet(bullet)
+            continue
+
+    return visits_total
+
+
+def _count_dates_in_bullet(bullet: str) -> int:
+    """Count comma/ampersand-separated date fragments inside one bullet line.
+
+    Rules:
+      * Strip leading punctuation that survived label splitting (": ", "- ", etc.).
+      * Split on commas AND ampersands.
+      * Trim whitespace; drop empty tokens.
+      * Each token must be a date fragment: starts with a month name OR is a
+        1–2 digit day number (which inherits the most recent month).
+    """
+    if not bullet:
+        return 0
+    bullet = bullet.lstrip(":-•– \t")
+    raw_tokens = re.split(r"[,&]", bullet)
+    count = 0
+    current_month = None
+    for tok in raw_tokens:
+        tok = tok.strip(" .;:-")
+        if not tok:
+            continue
+        m = _DATE_TOKEN_RE.match(tok)
+        if not m:
+            continue
+        if m.group("m"):
+            current_month = m.group("m")
+            count += 1
+        elif current_month:
+            # day-only token like "24" or "29" following a month-prefixed one
+            count += 1
+        # else: bare day with no preceding month — skip, can't trust it
+    return count
 
 
 def _main_text(soup: BeautifulSoup) -> str:
