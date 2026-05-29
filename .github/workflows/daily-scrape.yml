@@ -54,6 +54,12 @@ jobs:
 
       - name: Detect a real change
         id: diff
+        # Run even when the scraper exited non-zero (per-clinic isolation can
+        # exit 1 while still writing a valid studies.json with the successful
+        # clinics' data — see specs/PHASE3.2_workflow_and_spaulding_fixes.md).
+        # The diff still correctly returns changed=false if the file wasn't
+        # actually modified.
+        if: always()
         # Compare the studies array against the previously-committed JSON,
         # ignoring per-entry scraped_at and top-level generated_at so a daily
         # no-op run does not produce a commit.
@@ -94,6 +100,12 @@ jobs:
           new_fp = fingerprint(new)
           old_fp = fingerprint(old)
           count = len(new.get("studies", []) or [])
+          # clinic_count is set by the orchestrator and reflects the number of
+          # clinics that contributed at least one study. We pull it from the
+          # written file so the commit message can read "(N studies, K clinics)".
+          clinics = new.get("clinic_count")
+          if not isinstance(clinics, int):
+              clinics = len({s.get("clinic") for s in (new.get("studies") or []) if s.get("clinic")})
           changed = (old is None) or (old_fp != new_fp)
           # Compute the set of changed study slugs (ids) for the run summary.
           def by_id(data):
@@ -109,6 +121,7 @@ jobs:
           with open(out, "a", encoding="utf-8") as f:
               f.write(f"changed={'true' if changed else 'false'}\n")
               f.write(f"count={count}\n")
+              f.write(f"clinics={clinics}\n")
               f.write(f"old_fp={old_fp or ''}\n")
               f.write(f"new_fp={new_fp or ''}\n")
               f.write("slugs<<EOF\n")
@@ -120,15 +133,20 @@ jobs:
           PY
 
       - name: Commit and push
-        if: steps.diff.outputs.changed == 'true'
+        # always() so this still runs when the scraper exited non-zero (partial
+        # failure path); && gated by changed so no-op reruns produce no commit.
+        if: always() && steps.diff.outputs.changed == 'true'
         env:
-          COUNT: ${{ steps.diff.outputs.count }}
+          COUNT:   ${{ steps.diff.outputs.count }}
+          CLINICS: ${{ steps.diff.outputs.clinics }}
         run: |
           set -euo pipefail
           git config user.name  "trial-finder-bot"
           git config user.email "trial-finder-bot@users.noreply.github.com"
           git add docs/studies.json
-          git commit -m "data: daily Spaulding refresh (${COUNT} studies)"
+          STUDY_W="studies"; [ "${COUNT}" = "1" ] && STUDY_W="study"
+          CLINIC_W="clinics"; [ "${CLINICS}" = "1" ] && CLINIC_W="clinic"
+          git commit -m "data: daily refresh (${COUNT} ${STUDY_W}, ${CLINICS} ${CLINIC_W})"
           git push
 
       - name: Run summary
