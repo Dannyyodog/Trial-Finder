@@ -133,7 +133,9 @@ _FIELD_PATTERNS = {
     "Indication":   re.compile(r"Indication\s*:\s*([^.\n]+\.)", re.IGNORECASE),
 }
 
-_NIGHTS_RE = re.compile(r"(\d+)\s*-\s*Night\s+Stay", re.IGNORECASE)
+# Match "20 - Night Stay" / "8 Night Stay" / "20-Night Stay" — the hyphen is
+# inconsistent across studies (was the original bug spotted in §2).
+_NIGHTS_RE = re.compile(r"(\d+)\s*-?\s*Night\s+Stay", re.IGNORECASE)
 _RETURNS_RE = re.compile(r"&\s*(\d+)\s+Returns?", re.IGNORECASE)
 
 
