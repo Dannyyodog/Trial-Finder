@@ -3,6 +3,80 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-05-29 — Phase 3.1 prose-derived fields + cross-clinic spot check
+- Built Phase 3.1 per `specs/PHASE3.1_trial_finder_derived_fields.md`. Three real changes
+  + bookkeeping; one fell out of §1 (Fortrea), two fell out of §2 (Nucleus + Celerion).
+- **Fortrea Madison**: added `_derive_from_additional_details()` that parses
+  Check-in / Check-out dates with `python-dateutil` and counts comma- and ampersand-
+  separated tokens under "Follow up Visits:" (plus the inline "Potential Follow-ups:"
+  subsection). Phone Calls explicitly do NOT count. Day-only tokens like "24" or "29"
+  inherit the most recent month name in the same bullet, so "June 21, 24" correctly
+  counts as 2 dates. `study_type` is now recomputed from the new values: nights≥1
+  + visits≥1 → "mixed", nights≥1 → "inpatient", visits≥1 → "outpatient", else
+  "unknown". 5 of 6 Fortrea studies now have populated `nights` and 4 have populated
+  `visits`. Manual sanity-check confirmed against the live site:
+  - 781667: spec said nights=2, visits=11 → matches.
+  - 778100: Check-in: June 2 / Check-out: June 7 (5 nights); 4 bullets totaling 5
+    visits (June 21 + July 5 + Sep 14 + Oct 12 & 26) → matches.
+  - 782291 is the lone outlier with no Check-in/out in its prose — `nights=null`
+    is correct, that's what the schema says null means.
+- **`python-dateutil` added to `scraper/requirements.txt`.** Used only by Fortrea.
+- **Cross-clinic spot check (spec §2) per-clinic findings:**
+  - **Spaulding** — confirmed the existing parser is already correct.
+    Quill's `dates_raw` = "Length of stay: 1 in house stays, lasting 12 days/11 nights"
+    (already populated, nights=11 already correct). Quill's `visits=null` is correct
+    because the page only describes the confinement stay — no outpatient visits.
+    Penny's `dates_raw` = "Group 3: Dates TBD" is legitimate (Spaulding's own page
+    has no dates yet for Penny). Opal Part 2's `visits=null` is correct — the page
+    mentions a follow-up phone call, not a visit, and per schema phone calls don't
+    count. **No fix needed.**
+  - **Nucleus St. Paul** — found and fixed a real bug. The status filter accepted any
+    Phase value containing "recruit", which matched "Recruitment Closed" too. Six
+    closed trials were being kept (kidney-studies-free-heath-screening and others).
+    Replaced the positive `/recruit/` gate with a negative
+    `/closed|completed|finished|no longer recruiting|not recruiting/` gate. Spot
+    check also confirmed the 7 remaining trials all show Location = "Minneapolis,
+    United States" (no Australia bleed). **Fix committed:
+    `clinics: nucleus-stpaul drop "Recruitment Closed" trials`.**
+  - **ICON Lenexa** — every Lenexa study already has `nights`, `visits`, AND
+    `dates_raw` populated (18 nights / 1 visit, 6/1, 50/3, 15/1). The Phase 3
+    parser was already complete. **No fix needed.**
+  - **Celerion Lincoln** — found and fixed a real bug. The "Study Length" regex
+    required a hyphen between the night count and "Night Stay", so studies with
+    "8 Night Stay & 14 Returns" parsed `nights=null` while studies with
+    "20 - Night Stay & 2 Returns" parsed correctly. Made the hyphen optional;
+    ca50599-4a now has `nights=8` (was null). **Fix committed:
+    `clinics: celerion-lincoln nights regex no longer requires a hyphen`.**
+  - **AbbVie Grayslake** — public cards genuinely show only Check In date,
+    Demographic, Day Visits / Overnight badge, Gender, BMI, Stipend, Age. There's
+    no Check-out date for Overnight studies (Celery) and no visit count anywhere.
+    Buffalo's `study_type=outpatient` and Celery's `study_type=inpatient` are
+    already correctly inferred from the "Day Visits" / "Overnight" badge. The
+    "Information Sheet" link goes to a PDF, which is out of scope. `nights=null`
+    and `visits=null` here are the schema's correct "unknown" value.
+    **No fix needed.**
+- **Net data change**: 32 → 26 studies (six closed Nucleus trials removed), with the
+  remaining 26 carrying more populated fields. Fortrea cards in particular went from
+  mostly null Nights/Visits to mostly populated.
+- **Files touched**: `specs/PHASE3.1_trial_finder_derived_fields.md` (new),
+  `scraper/requirements.txt` (add python-dateutil),
+  `scraper/clinics/fortrea_madison.py` (derive nights/visits),
+  `scraper/clinics/nucleus_stpaul.py` (status filter fix),
+  `scraper/clinics/celerion_lincoln.py` (nights regex hyphen-optional),
+  `docs/studies.json` (regenerated), `docs/phase_current.md`, this `progress.md`.
+  Four commits on `main`.
+- **Verification (spec checklist):** §0 done; §1 Fortrea standalone returns 6 studies
+  with 5 nights / 4 visits populated; §2 manual sanity check matches; §3 combined
+  scrape exits 0 with all 6 clinics OK; §4 validator clean; §5 per-clinic findings
+  documented here; §7 phase_current.md + progress.md updated. §6 (frontend on
+  deployed site shows populated fields) requires push + Pages rebuild — owner step.
+- **Owner action item**: push the Phase 3.1 commits, wait for the next workflow run
+  (or trigger manually), and visually confirm the Fortrea cards on the deployed
+  site now show populated Nights / Visits and that the Nucleus card list dropped
+  the six "Recruitment Closed" entries.
+
+---
+
 ## 2026-05-28 — Phase 3 multi-clinic + state filter + collapsible schedule
 - Built Phase 3 end-to-end per `specs/PHASE3_trial_finder_clinics_and_state.md`. Committed
   step-by-step in the order the spec mandates so each clinic has a clean rollback point.
