@@ -24,7 +24,7 @@ into a non-zero exit and refuses to overwrite docs/studies.json.
 from __future__ import annotations
 
 import re
-import xml.etree.ElementTree as ET
+from lxml import etree
 
 from bs4 import BeautifulSoup
 
@@ -93,9 +93,14 @@ def scrape() -> list[dict]:
 def _discover_study_urls() -> list[str]:
     """Read the WordPress sitemap and return every URL under /study/<slug>/."""
     xml_text = fetch(SITEMAP_URL)
+    # Use lxml.etree (not stdlib xml.etree) because Spaulding's sitemap.xml
+    # starts with an <?xml-stylesheet?> processing instruction right after the
+    # XML declaration. That's legal XML, but stdlib ET refuses it. lxml is
+    # already an installed dependency. Encode to bytes — lxml prefers bytes
+    # and that avoids subtle behavior changes around the XML declaration.
     try:
-        root = ET.fromstring(xml_text)
-    except ET.ParseError as e:
+        root = etree.fromstring(xml_text.encode("utf-8"))
+    except etree.XMLSyntaxError as e:
         raise ScraperError(f"sitemap.xml is not valid XML: {e}")
 
     urls: list[str] = []
