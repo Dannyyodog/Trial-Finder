@@ -3,6 +3,67 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-05-29 — Phase 3.2 workflow + Spaulding hotfix
+- Built Phase 3.2 per `specs/PHASE3.2_workflow_and_spaulding_fixes.md`. Two surgical fixes,
+  one bookkeeping commit. Diagnosed by the first live partial-failure run: Spaulding's
+  module raised because stdlib XML rejected a `<?xml-stylesheet?>` PI in the sitemap; and
+  the workflow short-circuited the diff/commit steps when the scraper exited non-zero,
+  so the 22 successful-clinic studies never reached the deployed site.
+- **`scrape: spaulding parser switched to lxml`**. `xml.etree.ElementTree.fromstring`
+  on the live runner refused Spaulding's sitemap.xml because it begins with
+  `<?xml-stylesheet type="text/xsl" href="…sitemap.xsl"?>` immediately after the
+  XML declaration. That's legal XML; stdlib ET is stricter than the spec.
+  `lxml.etree.fromstring(xml_text.encode("utf-8"))` handles it correctly, and lxml
+  was already in `scraper/requirements.txt` for BeautifulSoup4 — zero-dep change.
+  `findall("sm:url/sm:loc", _NS)` works identically under lxml, so URL discovery is
+  unchanged. Local re-run: 4 Spaulding studies parse cleanly. **Did NOT add a
+  fallback discovery path** (per spec §2b) — the homepage's listing structure was
+  already verified empty in Phase 1, and speculative fallbacks add complexity for
+  failure modes we haven't seen.
+- **`workflow: run diff and commit on partial failure; richer commit message`**.
+  Added `if: always()` to "Detect a real change" and
+  `if: always() && steps.diff.outputs.changed == 'true'` to "Commit and push".
+  The `&&` on the commit step is important — without it the commit step would
+  try to run on jobs where the scraper crashed before writing any file. With it,
+  the commit step skips itself cleanly when the diff returns `changed=false`
+  (no real data change) or when the previous step never produced its output.
+  Did NOT touch `permissions:` — still `contents: write` only, no job-level
+  override. The job exit code is still driven by the scraper step, so a partial
+  failure still goes RED in the Actions tab while the data updates for what
+  worked. Plus the commit message now reads e.g.
+  `data: daily refresh (22 studies, 5 clinics)` — the diff step pulls
+  `clinic_count` from the freshly-written JSON and emits it as a step output;
+  the commit step uses both `COUNT` and `CLINICS` env vars and is
+  plural-aware.
+- **Locally simulated the partial-failure path end-to-end** per spec §6:
+  injected `raise RuntimeError("…")` into spaulding.scrape() via monkey-patch,
+  ran `scraper/scrape.py` directly:
+  - exit code = 1 (one failure, five OK)
+  - docs/studies.json rewritten with 22 studies / 5 clinics (was 26 / 6)
+  - fingerprint of the new file differs from `git show HEAD:docs/studies.json`
+    (`9e596791a84aab57…` → `1fadbbab601c9451…`)
+  - the workflow's diff step would emit `changed=true count=22 clinics=5` and
+    the commit step's `always() && changed=='true'` gate would now succeed.
+  Restored docs/studies.json from HEAD before continuing.
+- Files touched (this session): **new** `specs/PHASE3.2_workflow_and_spaulding_fixes.md`;
+  **modified** `scraper/clinics/spaulding.py`, `.github/workflows/daily-scrape.yml`,
+  `docs/phase_current.md`, `progress.md`. Three commits on `main`.
+- **Owner action items** (called out in `docs/phase_current.md`, NOT marked done):
+  1. Push the Phase 3.2 commits and trigger `daily-scrape.yml` manually from
+     the Actions tab. Expect: green run, 6 of 6 clinics OK in the summary table,
+     one new commit from `trial-finder-bot` with the message
+     `data: daily refresh (26 studies, 6 clinics)` (or whatever the live counts
+     are that day).
+  2. To prove the partial-failure path works on the live runner: temporarily
+     break one clinic (e.g. add `raise RuntimeError("test")` at the top of
+     `spaulding.scrape()`), commit & push, trigger the workflow, confirm:
+     job ends RED, the other 5 clinics' data still deploys via a partial-
+     refresh commit, the deployed Pages site updates. Revert the break.
+- **Recommended next step**: owner does the manual trigger + injected-fault
+  test, then closes the remaining Phase 3 / 3.1 / 3.2 owner boxes in one pass.
+
+---
+
 ## 2026-05-29 — Phase 3.1 prose-derived fields + cross-clinic spot check
 - Built Phase 3.1 per `specs/PHASE3.1_trial_finder_derived_fields.md`. Three real changes
   + bookkeeping; one fell out of §1 (Fortrea), two fell out of §2 (Nucleus + Celerion).
