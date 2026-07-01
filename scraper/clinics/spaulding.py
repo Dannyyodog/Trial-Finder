@@ -98,10 +98,29 @@ def _discover_study_urls() -> list[str]:
     # XML declaration. That's legal XML, but stdlib ET refuses it. lxml is
     # already an installed dependency. Encode to bytes — lxml prefers bytes
     # and that avoids subtle behavior changes around the XML declaration.
+    #
+    # Phase 3.3: use recovery mode. Spaulding's WordPress sometimes emits an
+    # unescaped `&` in a URL query string (recurring intermittent failure —
+    # see progress.md 2026-07-01 for the diagnosis across 4 failed runs).
+    # `recover=True` tolerates that and any similar minor malformation while
+    # still returning a valid tree; on clean days it's a no-op.
+    parser = etree.XMLParser(recover=True)
     try:
-        root = etree.fromstring(xml_text.encode("utf-8"))
+        root = etree.fromstring(xml_text.encode("utf-8"), parser=parser)
     except etree.XMLSyntaxError as e:
         raise ScraperError(f"sitemap.xml is not valid XML: {e}")
+    if root is None:
+        # Recovery bailed hard — the input isn't XML at all.
+        raise ScraperError("sitemap.xml is not valid XML: parser returned no root")
+
+    # If recovery had to smooth over anything, log it. Silent on clean days;
+    # visible in the run summary on the days when Spaulding's bug re-appears.
+    if parser.error_log:
+        first = parser.error_log[0]
+        print(
+            f"[spaulding] sitemap parsed with recovery "
+            f"({len(parser.error_log)} issue(s) tolerated): {first}"
+        )
 
     urls: list[str] = []
     for loc in root.findall("sm:url/sm:loc", _NS):
