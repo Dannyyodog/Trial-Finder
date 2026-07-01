@@ -3,6 +3,72 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-07-01 — Phase 3.3 Spaulding sitemap recovery mode
+- Built Phase 3.3 per `specs/PHASE3.3_spaulding_sitemap_recovery.md`. Two-line
+  code change plus the log-when-recovery-engages guard. Fixes the recurring
+  intermittent Spaulding failure logged on the prior progress entry (4 failed
+  runs in the last 9 days with identical `EntityRef: expecting ';'` error).
+- **§1 Reproduction, done before the fix.** Fetched today's live sitemap
+  (2142 bytes, clean, no `&` characters). Learned along the way that lxml
+  actually doesn't reject bare `&` inside `<?processing-instruction?>`
+  content — PI content is opaque. It DOES reject bare `&` inside element
+  attributes and text nodes. So the production `line 1 column 124` is
+  really an artifact of the sitemap being served as a single physical line
+  in the runner's environment; the malformation itself is somewhere inside
+  the `<urlset>` opening or a `<loc>` — most plausibly a URL query string
+  where WordPress fails to escape `&` as `&amp;`. Injected `?a=1&b=2` into
+  the first `<loc>`; confirmed the strict parser fails with
+  `XMLSyntaxError: EntityRef: expecting ';', line 42, column 60` — same
+  error class as the production log, different position because my
+  injection point differs. Reproduction valid per spec §1.
+- **The fix.** In `_discover_study_urls()`, replaced
+  `root = etree.fromstring(xml_text.encode("utf-8"))` with a two-line
+  pattern:
+  ```
+  parser = etree.XMLParser(recover=True)
+  root   = etree.fromstring(xml_text.encode("utf-8"), parser=parser)
+  ```
+  Plus a `parser.error_log` check that prints a `[spaulding] sitemap
+  parsed with recovery (N issue(s) tolerated): <first issue>` line
+  whenever recovery had to smooth over anything. On clean-sitemap days
+  the log is silent (recover mode is a no-op on valid XML); on the days
+  Spaulding's WordPress bug re-appears the run summary will show what
+  was tolerated. Prevents the fix from becoming an invisible band-aid.
+  Also handles the `root is None` edge case (recovery bailed hard on
+  something that's not XML at all) by raising ScraperError.
+- **§2 fix verification against synthesized bad fixture.**
+  - `recover=True` parsed the bad fixture; `parser.error_log` had 1
+    tolerated issue (`ERR_ENTITYREF_SEMICOL_MISSING`).
+  - Recovered tree had 14 `<loc>` entries, matching the good fixture.
+  - `_discover_study_urls()` returned 4 study URLs from the bad fixture
+    (opalpart2 dropped because the injected query string made its URL
+    stop matching the strict `/study/<slug>/?$` regex — that's correct;
+    if Spaulding ever emits real query strings we can widen the regex,
+    but the current behavior degrades gracefully).
+  - Recovery log line printed as designed.
+- **§3 live sitemap.** `scrape.clinics.spaulding.scrape()` returned 5
+  studies (Solar is new since the Phase 3.3 spec was written, which said
+  "current live value: 4"). No recovery log — today's live sitemap is
+  clean. Recover mode is silent on valid input, as designed.
+- **§4 orchestrator.** 6 of 6 clinics OK, exit 0, docs/studies.json
+  validates against the schema (20 studies today, down from 23 in the
+  last committed refresh — normal churn as clinics rotate cohorts).
+- **Files touched**: `specs/PHASE3.3_spaulding_sitemap_recovery.md` (new);
+  `scraper/clinics/spaulding.py` (recover mode + log guard);
+  `docs/phase_current.md`, `progress.md`. Two commits on `main` per spec
+  §3 cadence: `scrape: spaulding sitemap uses lxml recovery mode` and
+  this `phase 3.3: progress + phase_current`.
+- **Owner action item.** Watch the next 1–2 weeks of scheduled runs.
+  Expect: (a) no more Spaulding FAIL rows in the per-clinic table,
+  (b) occasional `[spaulding] sitemap parsed with recovery ...` log
+  lines on the days when Spaulding's underlying bug re-appears. If
+  neither the FAILs nor the recovery logs show up, we've been lucky
+  with clean sitemaps and the fix is proven only against the synthesized
+  reproduction — that's still a real proof, but the live-run signal is
+  what closes the loop.
+
+---
+
 ## 2026-07-01 — Node 24 action bump + Spaulding sitemap regression surfaced
 - **Bumped deprecated Actions.** `.github/workflows/daily-scrape.yml`:
   `actions/checkout@v4` → `@v5`, `actions/setup-python@v5` → `@v6`. Both bumps

@@ -1,6 +1,14 @@
 # Trial Finder — current phase
 
-## Phase 3.2 — Workflow + Spaulding hotfix — IN PROGRESS
+## Phase 3.3 — Spaulding sitemap recovery mode — IN PROGRESS
+- [x] scraper/clinics/spaulding.py uses etree.XMLParser(recover=True)
+- [x] Log emitted when recovery engages (so intermittent bug remains visible)
+- [x] Verified against synthesized bad-entity sitemap: URLs still extract, exit 0
+- [x] Verified against live (good-day) sitemap: 5 studies parse, no regressions
+- [ ] (Owner) watch the next 1–2 weeks of scheduled runs; confirm Spaulding
+      no longer intermittently disappears from the deployed site
+
+## Phase 3.2 — Workflow + Spaulding hotfix — DONE (engineering)
 - [x] scraper/clinics/spaulding.py uses lxml parser; 4 Spaulding studies parse locally
 - [x] daily-scrape.yml diff and commit steps run `if: always()` (commit also gated by `changed`)
 - [x] commit message includes clinic_count from studies.json
