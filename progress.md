@@ -3,6 +3,63 @@ Newest entry on top. One entry per work session.
 
 ---
 
+## 2026-07-01 — Node 24 action bump + Spaulding sitemap regression surfaced
+- **Bumped deprecated Actions.** `.github/workflows/daily-scrape.yml`:
+  `actions/checkout@v4` → `@v5`, `actions/setup-python@v5` → `@v6`. Both bumps
+  move off Node 20 (which GitHub is deprecating with warnings on every run) to
+  Node 24. Two-line diff; nothing else in the workflow changed. Committed as
+  `workflow: bump checkout and setup-python to Node 24 versions`.
+- **Investigated the failed 2026-07-01 run (run id 28505289609).** Not a
+  one-off flake — this failure has hit four scheduled runs in the last nine
+  days (6/23, 6/25, 6/29, 7/1) with the **identical error signature every
+  time**:
+  ```
+  Spaulding Clinical  FAIL  (ScraperError: sitemap.xml is not valid XML:
+  EntityRef: expecting ';', line 1, column 124 (<string>, line 1))
+  ```
+  Per-clinic isolation did its job: on all four failed days, 5 of 6 clinics
+  succeeded, docs/studies.json was refreshed with the surviving clinics'
+  data (14–22 studies), and the Action went red so the failure was visible.
+  The workflow-layer fix from Phase 3.2 is holding.
+- **Root cause of the Spaulding failure.** Spaulding's sitemap intermittently
+  emits an unescaped `&` character somewhere near line 1 column 124, which
+  lxml correctly rejects as an invalid XML entity reference. Column 124 is
+  right around the `<?xml-stylesheet type="text/xsl" href="…"?>` processing
+  instruction, so the most likely candidate is a URL query string in the
+  stylesheet href (`?a=1&b=2`) that WordPress fails to escape as `&amp;`.
+  I checked today's sitemap manually — 2,142 bytes, zero `&` characters,
+  lxml parses it cleanly, 14 url entries. So the bug is intermittent:
+  Spaulding sometimes emits valid XML, sometimes doesn't. That matches the
+  alternating pass/fail pattern in the run history.
+- **Also noted (not in scope today):** run 28012909069 on 2026-06-23 had a
+  *second* failure — Nucleus Network's robots.txt check refused
+  `https://www.nucleusnetwork.com/` (`ScraperError: robots.txt disallows
+  https://www.nucleusnetwork.com/`). That was one-off (didn't repeat on
+  subsequent runs). Worth watching but not worth investigating alone yet.
+- **Not fixing in this commit** (per instructions: "surface it in progress.md
+  so we can spec a Phase 3.3 patch if needed"). Options for the eventual fix
+  are all narrow:
+  1. Add `parser=etree.XMLParser(recover=True)` — lxml's recovery mode
+     tolerates bad entities and continues. Simplest.
+  2. Pre-process the byte stream: replace bare `&` with `&amp;` when it's
+     not part of a valid entity ref, then parse strictly.
+  3. Add a fallback discovery path: on XMLSyntaxError, regex-extract
+     `/study/<slug>/` URLs from the raw text. Phase 3.2 §2b explicitly said
+     not to speculatively add fallbacks; this failure now provides the
+     concrete motivation.
+  Recommend option 1 for the Phase 3.3 spec — smallest surface, fewest
+  assumptions, and Spaulding's sitemap URLs are already well-formed enough
+  that lxml's recover mode has always yielded the same 4 study URLs on
+  my test copies.
+- **Files touched**: `.github/workflows/daily-scrape.yml` (action bumps),
+  `progress.md` (this entry). Two commits on `main`.
+- **Owner action item**: draft `specs/PHASE3.3_spaulding_sitemap_recovery.md`
+  that picks option 1 and specifies the local test scenario (feed the parser
+  a fixture with a bare `&` in the stylesheet href, confirm we still get
+  the 4 study URLs).
+
+---
+
 ## 2026-05-29 — Phase 3.2 workflow + Spaulding hotfix
 - Built Phase 3.2 per `specs/PHASE3.2_workflow_and_spaulding_fixes.md`. Two surgical fixes,
   one bookkeeping commit. Diagnosed by the first live partial-failure run: Spaulding's
