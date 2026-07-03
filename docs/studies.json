@@ -1,8 +1,32 @@
 {
-  "generated_at": "2026-07-02T08:11:54Z",
-  "clinic_count": 3,
+  "generated_at": "2026-07-03T08:08:44Z",
+  "clinic_count": 4,
   "study_count": 8,
   "studies": [
+    {
+      "id": "fortrea-madison-778951-healthy-men-and-women-one-week-stay",
+      "clinic": "Fortrea",
+      "location": "Madison, WI",
+      "state": "WI",
+      "title": "Healthy Men and Women- One Week Stay!",
+      "compensation": 3552,
+      "compensation_raw": "$3,552",
+      "study_type": "inpatient",
+      "nights": 5,
+      "visits": 0,
+      "screening_date_raw": null,
+      "dates_raw": "Jul 26 2026-Aug 04 2026; A4a: | Check-in: July 26 Check-out: July 31 | Follow-up visit: August 4 | OR | A4b: | Check-in: July 27 Check-out: August 1 | Follow-up visit: August 5",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 60,
+      "age_raw": "18-60",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-healthy-men-and-women-one-week-stay",
+      "scraped_at": "2026-07-03T08:07:52Z"
+    },
     {
       "id": "icon-lenexa-739",
       "clinic": "ICON Early Phase",
@@ -25,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/739/",
-      "scraped_at": "2026-07-02T08:11:15Z"
+      "scraped_at": "2026-07-03T08:08:05Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -49,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-07-02T08:11:16Z"
+      "scraped_at": "2026-07-03T08:08:07Z"
     },
     {
       "id": "icon-lenexa-801",
@@ -73,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/801/",
-      "scraped_at": "2026-07-02T08:11:18Z"
+      "scraped_at": "2026-07-03T08:08:08Z"
     },
     {
       "id": "icon-lenexa-804",
@@ -97,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/804/",
-      "scraped_at": "2026-07-02T08:11:19Z"
+      "scraped_at": "2026-07-03T08:08:10Z"
     },
     {
       "id": "celerion-lincoln-ca50008-1-0x0000000000006d2f-0",
@@ -121,21 +145,21 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://helpresearch.com/medical-study/ca50008-1-0x0000000000006d2f-0",
-      "scraped_at": "2026-07-02T08:11:40Z"
+      "scraped_at": "2026-07-03T08:08:30Z"
     },
     {
-      "id": "celerion-lincoln-ca50785-3a-0x0000000000006be6-2",
+      "id": "celerion-lincoln-ca52818-1-0x000000000000702f",
       "clinic": "Celerion",
       "location": "Lincoln, NE",
       "state": "NE",
-      "title": "CA50785-3: Healthy Normal Male and Female",
-      "compensation": 3000,
-      "compensation_raw": "up to $3,000.00",
+      "title": "CA52818-1: Healthy Normal Male and Female",
+      "compensation": 6000,
+      "compensation_raw": "up to $6,000.00",
       "study_type": "mixed",
-      "nights": 3,
-      "visits": 1,
+      "nights": 2,
+      "visits": 5,
       "screening_date_raw": null,
-      "dates_raw": "Start: July 12, 2026 - 3:00pm; End: July 20, 2026 - 9:30am",
+      "dates_raw": "Start: July 30, 2026 - 3:00pm; End: September 25, 2026 - 9:30am",
       "sex": "ALL",
       "sex_notes": null,
       "age_min": 19,
@@ -143,9 +167,9 @@
       "age_raw": "19 - 55",
       "healthy": true,
       "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://helpresearch.com/medical-study/ca50785-3a-0x0000000000006be6-2",
-      "scraped_at": "2026-07-02T08:11:49Z"
+      "flag_childbearing": true,
+      "url": "https://helpresearch.com/medical-study/ca52818-1-0x000000000000702f",
+      "scraped_at": "2026-07-03T08:08:40Z"
     },
     {
       "id": "abbvie-grayslake-buffalo",
@@ -169,31 +193,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-07-02T08:11:54Z"
-    },
-    {
-      "id": "abbvie-grayslake-baboon",
-      "clinic": "AbbVie ACPRU",
-      "location": "Grayslake, IL",
-      "state": "IL",
-      "title": "Baboon",
-      "compensation": 17900,
-      "compensation_raw": "Up to $17900.00*",
-      "study_type": "inpatient",
-      "nights": null,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Check In: 03, 04, or 05 August 2026",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 60,
-      "age_raw": "18-60",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-07-02T08:11:54Z"
+      "scraped_at": "2026-07-03T08:08:44Z"
     }
   ]
 }
