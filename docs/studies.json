@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-07T08:23:41Z",
-  "clinic_count": 5,
-  "study_count": 16,
+  "generated_at": "2026-07-08T07:29:00Z",
+  "clinic_count": 6,
+  "study_count": 17,
   "studies": [
     {
       "id": "spaulding-solar",
@@ -25,7 +25,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/solar/",
-      "scraped_at": "2026-07-07T08:21:37Z"
+      "scraped_at": "2026-07-08T07:26:52Z"
     },
     {
       "id": "spaulding-opalpart2",
@@ -49,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/opalpart2/",
-      "scraped_at": "2026-07-07T08:21:39Z"
+      "scraped_at": "2026-07-08T07:26:54Z"
     },
     {
       "id": "spaulding-penny",
@@ -73,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/penny/",
-      "scraped_at": "2026-07-07T08:21:41Z"
+      "scraped_at": "2026-07-08T07:26:55Z"
     },
     {
       "id": "spaulding-quill",
@@ -97,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/quill/",
-      "scraped_at": "2026-07-07T08:21:42Z"
+      "scraped_at": "2026-07-08T07:26:56Z"
     },
     {
       "id": "spaulding-thunder-2",
@@ -121,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/thunder-2/",
-      "scraped_at": "2026-07-07T08:21:44Z"
+      "scraped_at": "2026-07-08T07:26:58Z"
     },
     {
       "id": "fortrea-madison-778951-healthy-men-and-women-one-week-stay",
@@ -145,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-healthy-men-and-women-one-week-stay",
-      "scraped_at": "2026-07-07T08:21:52Z"
+      "scraped_at": "2026-07-08T07:27:03Z"
     },
     {
       "id": "nucleus-stpaul-free-health-screening-kidney-study",
@@ -169,7 +169,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.nucleusnetwork.com/trial/free-health-screening-kidney-study/",
-      "scraped_at": "2026-07-07T08:22:05Z"
+      "scraped_at": "2026-07-08T07:27:19Z"
     },
     {
       "id": "nucleus-stpaul-nova-study",
@@ -193,31 +193,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.nucleusnetwork.com/trial/nova-study/",
-      "scraped_at": "2026-07-07T08:22:19Z"
-    },
-    {
-      "id": "nucleus-stpaul-the-aurora-study",
-      "clinic": "Nucleus Network",
-      "location": "St. Paul, MN",
-      "state": "MN",
-      "title": "The Aurora Study",
-      "compensation": 3451,
-      "compensation_raw": "$3,451",
-      "study_type": "mixed",
-      "nights": 1,
-      "visits": 2,
-      "screening_date_raw": null,
-      "dates_raw": null,
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 45,
-      "age_max": 60,
-      "age_raw": "45-60",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://www.nucleusnetwork.com/trial/the-aurora-study/",
-      "scraped_at": "2026-07-07T08:22:35Z"
+      "scraped_at": "2026-07-08T07:27:32Z"
     },
     {
       "id": "nucleus-stpaul-the-kinase-study",
@@ -241,7 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.nucleusnetwork.com/trial/the-kinase-study/",
-      "scraped_at": "2026-07-07T08:22:38Z"
+      "scraped_at": "2026-07-08T07:27:48Z"
     },
     {
       "id": "nucleus-stpaul-the-neuro-study",
@@ -265,7 +241,31 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.nucleusnetwork.com/trial/the-neuro-study/",
-      "scraped_at": "2026-07-07T08:23:00Z"
+      "scraped_at": "2026-07-08T07:28:10Z"
+    },
+    {
+      "id": "nucleus-stpaul-the-aurora-study",
+      "clinic": "Nucleus Network",
+      "location": "St. Paul, MN",
+      "state": "MN",
+      "title": "The Aurora Study",
+      "compensation": 3451,
+      "compensation_raw": "$3,451",
+      "study_type": "mixed",
+      "nights": 1,
+      "visits": 2,
+      "screening_date_raw": null,
+      "dates_raw": null,
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 45,
+      "age_max": 60,
+      "age_raw": "45-60",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://www.nucleusnetwork.com/trial/the-aurora-study/",
+      "scraped_at": "2026-07-08T07:28:11Z"
     },
     {
       "id": "icon-lenexa-739",
@@ -289,7 +289,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/739/",
-      "scraped_at": "2026-07-07T08:23:19Z"
+      "scraped_at": "2026-07-08T07:28:29Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -313,31 +313,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-07-07T08:23:20Z"
-    },
-    {
-      "id": "icon-lenexa-801",
-      "clinic": "ICON Early Phase",
-      "location": "Lenexa, KS",
-      "state": "KS",
-      "title": "Clinical Research Study of an Investigational Medication in Healthy Volunteers",
-      "compensation": 17600,
-      "compensation_raw": "Up to $17600",
-      "study_type": "mixed",
-      "nights": 28,
-      "visits": 1,
-      "screening_date_raw": null,
-      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 28 nights and 1 follow-up phone call.",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18-55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/801/",
-      "scraped_at": "2026-07-07T08:23:22Z"
+      "scraped_at": "2026-07-08T07:28:31Z"
     },
     {
       "id": "icon-lenexa-804",
@@ -361,7 +337,55 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/804/",
-      "scraped_at": "2026-07-07T08:23:23Z"
+      "scraped_at": "2026-07-08T07:28:33Z"
+    },
+    {
+      "id": "icon-lenexa-806",
+      "clinic": "ICON Early Phase",
+      "location": "Lenexa, KS",
+      "state": "KS",
+      "title": "Clinical Research Study of an Investigational Medication in Healthy Participants",
+      "compensation": 13500,
+      "compensation_raw": "Up to $13500",
+      "study_type": "mixed",
+      "nights": 18,
+      "visits": 2,
+      "screening_date_raw": null,
+      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 18 nights and 2 outpatient visits.",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 65,
+      "age_raw": "18-65",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/806/",
+      "scraped_at": "2026-07-08T07:28:34Z"
+    },
+    {
+      "id": "celerion-lincoln-ca50599-6r-0x00000000000070ef",
+      "clinic": "Celerion",
+      "location": "Lincoln, NE",
+      "state": "NE",
+      "title": "CA50599-6: Healthy Normal Male and Female",
+      "compensation": 20000,
+      "compensation_raw": "up to $20,000.00",
+      "study_type": "mixed",
+      "nights": 8,
+      "visits": 14,
+      "screening_date_raw": null,
+      "dates_raw": "Start: July 19, 2026 - 11:00am; End: April 26, 2027 - 9:30am",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 19,
+      "age_max": 55,
+      "age_raw": "19 - 55",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://helpresearch.com/medical-study/ca50599-6r-0x00000000000070ef",
+      "scraped_at": "2026-07-08T07:28:53Z"
     },
     {
       "id": "abbvie-grayslake-buffalo",
@@ -385,7 +409,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-07-07T08:23:41Z"
+      "scraped_at": "2026-07-08T07:29:00Z"
     }
   ]
 }
