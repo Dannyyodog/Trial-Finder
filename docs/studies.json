@@ -1,152 +1,8 @@
 {
-  "generated_at": "2026-08-08T05:43:15Z",
-  "clinic_count": 5,
-  "study_count": 18,
+  "generated_at": "2026-08-09T05:46:39Z",
+  "clinic_count": 4,
+  "study_count": 12,
   "studies": [
-    {
-      "id": "spaulding-montgomery",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Montgomery",
-      "compensation": 6625,
-      "compensation_raw": "$6,625",
-      "study_type": "inpatient",
-      "nights": 8,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Cohort 3: Check In: August 12th Check Out: August 20th",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18 to 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/montgomery/",
-      "scraped_at": "2026-08-08T05:40:43Z"
-    },
-    {
-      "id": "spaulding-solar",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Solar",
-      "compensation": 6625,
-      "compensation_raw": "$6,625",
-      "study_type": "inpatient",
-      "nights": 4,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Cohort 9: Check-In: August 11th Check-Out: August 15th Follow-up Phone Call: August 26th",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18 to 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/solar/",
-      "scraped_at": "2026-08-08T05:40:44Z"
-    },
-    {
-      "id": "spaulding-opalpart2",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Opal Part 2",
-      "compensation": 8875,
-      "compensation_raw": "$8,875",
-      "study_type": "inpatient",
-      "nights": 11,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Part 2: Check in: April 16th Check out: April 28th Phone call: May 5th",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 45,
-      "age_raw": "18 to 45",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/opalpart2/",
-      "scraped_at": "2026-08-08T05:40:46Z"
-    },
-    {
-      "id": "spaulding-penny",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Penny",
-      "compensation": 23625,
-      "compensation_raw": "$23,625",
-      "study_type": "inpatient",
-      "nights": 30,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Group 2: Check in: May 16 Check out: May 26 Check in: June 1 Check out: June 11 Check in: June 17 Check out: June 27 Phone call: July 3",
-      "sex": "MALE",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18 to 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/penny/",
-      "scraped_at": "2026-08-08T05:40:47Z"
-    },
-    {
-      "id": "spaulding-quill",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Quill",
-      "compensation": 5000,
-      "compensation_raw": "$5,000",
-      "study_type": "inpatient",
-      "nights": 11,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Length of stay: 1 in house stays, lasting 12 days/11 nights",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 75,
-      "age_max": 85,
-      "age_raw": "75-85",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/quill/",
-      "scraped_at": "2026-08-08T05:40:49Z"
-    },
-    {
-      "id": "spaulding-thunder-2",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Thunder",
-      "compensation": 5000,
-      "compensation_raw": "$5,000",
-      "study_type": "mixed",
-      "nights": 9,
-      "visits": 1,
-      "screening_date_raw": null,
-      "dates_raw": "Cohort 2: Check in: August 18 Check out: August 24 Text message: August 25 Text message: August 26 Text message: August 27 Check in: August 28 Check out: August 31 OPV: September 6",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18-55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/thunder-2/",
-      "scraped_at": "2026-08-08T05:40:50Z"
-    },
     {
       "id": "fortrea-madison-781236-clinical-research-study-adults-glp-1-medication",
       "clinic": "Fortrea",
@@ -169,7 +25,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/781236-clinical-research-study-adults-glp-1-medication",
-      "scraped_at": "2026-08-08T05:40:55Z"
+      "scraped_at": "2026-08-09T05:44:41Z"
     },
     {
       "id": "fortrea-madison-778951-healthy-adults-one-week-stay",
@@ -193,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-healthy-adults-one-week-stay",
-      "scraped_at": "2026-08-08T05:41:02Z"
+      "scraped_at": "2026-08-09T05:44:47Z"
     },
     {
       "id": "fortrea-madison-782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed-0",
@@ -217,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed-0",
-      "scraped_at": "2026-08-08T05:41:04Z"
+      "scraped_at": "2026-08-09T05:44:49Z"
     },
     {
       "id": "icon-lenexa-739",
@@ -241,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/739/",
-      "scraped_at": "2026-08-08T05:42:43Z"
+      "scraped_at": "2026-08-09T05:46:07Z"
     },
     {
       "id": "icon-lenexa-763",
@@ -265,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/763/",
-      "scraped_at": "2026-08-08T05:42:45Z"
+      "scraped_at": "2026-08-09T05:46:09Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -289,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-08-08T05:42:47Z"
+      "scraped_at": "2026-08-09T05:46:10Z"
     },
     {
       "id": "celerion-lincoln-ca50785-5a-0x0000000000006bec",
@@ -313,7 +169,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://helpresearch.com/medical-study/ca50785-5a-0x0000000000006bec",
-      "scraped_at": "2026-08-08T05:43:07Z"
+      "scraped_at": "2026-08-09T05:46:30Z"
     },
     {
       "id": "abbvie-grayslake-baboon",
@@ -337,7 +193,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-08T05:43:15Z"
+      "scraped_at": "2026-08-09T05:46:39Z"
     },
     {
       "id": "abbvie-grayslake-rocky",
@@ -361,7 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-08T05:43:15Z"
+      "scraped_at": "2026-08-09T05:46:39Z"
     },
     {
       "id": "abbvie-grayslake-warthog",
@@ -385,7 +241,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-08T05:43:15Z"
+      "scraped_at": "2026-08-09T05:46:39Z"
     },
     {
       "id": "abbvie-grayslake-celery",
@@ -409,7 +265,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-08T05:43:15Z"
+      "scraped_at": "2026-08-09T05:46:39Z"
     },
     {
       "id": "abbvie-grayslake-millet",
@@ -433,7 +289,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-08T05:43:15Z"
+      "scraped_at": "2026-08-09T05:46:39Z"
     }
   ]
 }
