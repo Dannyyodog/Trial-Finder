@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-10T06:11:41Z",
+  "generated_at": "2026-08-11T05:54:08Z",
   "clinic_count": 5,
-  "study_count": 17,
+  "study_count": 18,
   "studies": [
     {
       "id": "spaulding-montgomery",
@@ -25,31 +25,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/montgomery/",
-      "scraped_at": "2026-08-10T06:09:36Z"
-    },
-    {
-      "id": "spaulding-solar",
-      "clinic": "Spaulding Clinical",
-      "location": "West Bend, WI",
-      "state": "WI",
-      "title": "Solar",
-      "compensation": 6625,
-      "compensation_raw": "$6,625",
-      "study_type": "inpatient",
-      "nights": 4,
-      "visits": null,
-      "screening_date_raw": null,
-      "dates_raw": "Cohort 9: Check-In: August 11th Check-Out: August 15th Follow-up Phone Call: August 26th",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18 to 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://www.spauldingpays.com/study/solar/",
-      "scraped_at": "2026-08-10T06:09:37Z"
+      "scraped_at": "2026-08-11T05:51:51Z"
     },
     {
       "id": "spaulding-opalpart2",
@@ -73,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/opalpart2/",
-      "scraped_at": "2026-08-10T06:09:39Z"
+      "scraped_at": "2026-08-11T05:51:52Z"
     },
     {
       "id": "spaulding-penny",
@@ -97,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/penny/",
-      "scraped_at": "2026-08-10T06:09:40Z"
+      "scraped_at": "2026-08-11T05:51:54Z"
     },
     {
       "id": "spaulding-quill",
@@ -121,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/quill/",
-      "scraped_at": "2026-08-10T06:09:41Z"
+      "scraped_at": "2026-08-11T05:51:55Z"
     },
     {
       "id": "spaulding-thunder-2",
@@ -145,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/thunder-2/",
-      "scraped_at": "2026-08-10T06:09:43Z"
+      "scraped_at": "2026-08-11T05:51:57Z"
     },
     {
       "id": "fortrea-madison-781236-clinical-research-study-adults-glp-1-medication",
@@ -169,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/781236-clinical-research-study-adults-glp-1-medication",
-      "scraped_at": "2026-08-10T06:09:48Z"
+      "scraped_at": "2026-08-11T05:52:01Z"
     },
     {
       "id": "fortrea-madison-778951-healthy-adults-one-week-stay",
@@ -193,7 +169,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-healthy-adults-one-week-stay",
-      "scraped_at": "2026-08-10T06:09:55Z"
+      "scraped_at": "2026-08-11T05:52:08Z"
     },
     {
       "id": "fortrea-madison-782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed-0",
@@ -217,7 +193,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed-0",
-      "scraped_at": "2026-08-10T06:09:57Z"
+      "scraped_at": "2026-08-11T05:52:11Z"
     },
     {
       "id": "icon-lenexa-739",
@@ -241,31 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/739/",
-      "scraped_at": "2026-08-10T06:11:12Z"
-    },
-    {
-      "id": "icon-lenexa-763",
-      "clinic": "ICON Early Phase",
-      "location": "Lenexa, KS",
-      "state": "KS",
-      "title": "Clinical Research Study of an Investigational Medication in Overweight but Otherwise Healthy Volunteers",
-      "compensation": 4400,
-      "compensation_raw": "Up to $4400",
-      "study_type": "mixed",
-      "nights": 6,
-      "visits": 1,
-      "screening_date_raw": null,
-      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 6 nights and 1 follow-up visit.",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18-55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/763/",
-      "scraped_at": "2026-08-10T06:11:14Z"
+      "scraped_at": "2026-08-11T05:53:38Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -289,7 +241,55 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-08-10T06:11:16Z"
+      "scraped_at": "2026-08-11T05:53:39Z"
+    },
+    {
+      "id": "icon-lenexa-792",
+      "clinic": "ICON Early Phase",
+      "location": "Lenexa, KS",
+      "state": "KS",
+      "title": "Clinical Research Study of an Investigational Medication in Healthy Participants",
+      "compensation": 13850,
+      "compensation_raw": "Up to $13850",
+      "study_type": "mixed",
+      "nights": 9,
+      "visits": 3,
+      "screening_date_raw": null,
+      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 9 nights and 3 outpatient visits.",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 55,
+      "age_raw": "18-55",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": false,
+      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/792/",
+      "scraped_at": "2026-08-11T05:53:40Z"
+    },
+    {
+      "id": "icon-lenexa-815",
+      "clinic": "ICON Early Phase",
+      "location": "Lenexa, KS",
+      "state": "KS",
+      "title": "Clinical Research Study of an Investigational Medication in Healthy Participants",
+      "compensation": 15000,
+      "compensation_raw": "Up to $15000",
+      "study_type": "mixed",
+      "nights": 8,
+      "visits": 4,
+      "screening_date_raw": null,
+      "dates_raw": "Participation in this study includes 2 screening visits, 3 stays of 8 nights each and 4 outpatient visits.",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 50,
+      "age_raw": "18-50",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": false,
+      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/815/",
+      "scraped_at": "2026-08-11T05:53:42Z"
     },
     {
       "id": "celerion-lincoln-ca50785-5a-0x0000000000006bec",
@@ -303,7 +303,7 @@
       "nights": 3,
       "visits": 2,
       "screening_date_raw": null,
-      "dates_raw": "Start: September 8, 2026 - 2:00pm; End: September 16, 2026 - 8:30am",
+      "dates_raw": "Start: September 8, 2026 - 2:45pm; End: September 16, 2026 - 9:15am",
       "sex": "ALL",
       "sex_notes": null,
       "age_min": 19,
@@ -313,7 +313,31 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://helpresearch.com/medical-study/ca50785-5a-0x0000000000006bec",
-      "scraped_at": "2026-08-10T06:11:35Z"
+      "scraped_at": "2026-08-11T05:54:02Z"
+    },
+    {
+      "id": "abbvie-grayslake-buffalo",
+      "clinic": "AbbVie ACPRU",
+      "location": "Grayslake, IL",
+      "state": "IL",
+      "title": "Buffalo",
+      "compensation": 2100,
+      "compensation_raw": "Up to $2100.00*",
+      "study_type": "outpatient",
+      "nights": 0,
+      "visits": null,
+      "screening_date_raw": null,
+      "dates_raw": "Check In: No Confinement",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 65,
+      "age_raw": "18-65",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": false,
+      "url": "https://www.abbviephase1.com/#/available-trials",
+      "scraped_at": "2026-08-11T05:54:08Z"
     },
     {
       "id": "abbvie-grayslake-baboon",
@@ -337,7 +361,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-10T06:11:41Z"
+      "scraped_at": "2026-08-11T05:54:08Z"
     },
     {
       "id": "abbvie-grayslake-warthog",
@@ -361,7 +385,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-10T06:11:41Z"
+      "scraped_at": "2026-08-11T05:54:08Z"
     },
     {
       "id": "abbvie-grayslake-celery",
@@ -385,7 +409,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-10T06:11:41Z"
+      "scraped_at": "2026-08-11T05:54:08Z"
     },
     {
       "id": "abbvie-grayslake-millet",
@@ -409,7 +433,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-10T06:11:41Z"
+      "scraped_at": "2026-08-11T05:54:08Z"
     }
   ]
 }
