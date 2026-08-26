@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-25T05:30:46Z",
+  "generated_at": "2026-08-26T05:33:45Z",
   "clinic_count": 4,
-  "study_count": 10,
+  "study_count": 11,
   "studies": [
     {
       "id": "fortrea-madison-781236-clinical-research-study-adults-glp-1-medication",
@@ -25,14 +25,14 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/781236-clinical-research-study-adults-glp-1-medication",
-      "scraped_at": "2026-08-25T05:28:55Z"
+      "scraped_at": "2026-08-26T05:31:42Z"
     },
     {
-      "id": "fortrea-madison-778951-one-week-stay",
+      "id": "fortrea-madison-778951-stay-change",
       "clinic": "Fortrea",
       "location": "Madison, WI",
       "state": "WI",
-      "title": "One Week Stay!",
+      "title": "A Stay for Change",
       "compensation": 3552,
       "compensation_raw": "$3,552",
       "study_type": "inpatient",
@@ -48,8 +48,8 @@
       "healthy": true,
       "flag_spinal": false,
       "flag_childbearing": true,
-      "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-one-week-stay",
-      "scraped_at": "2026-08-25T05:29:03Z"
+      "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-stay-change",
+      "scraped_at": "2026-08-26T05:31:51Z"
     },
     {
       "id": "icon-lenexa-761",
@@ -73,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/761/",
-      "scraped_at": "2026-08-25T05:30:15Z"
+      "scraped_at": "2026-08-26T05:33:03Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -97,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-08-25T05:30:16Z"
+      "scraped_at": "2026-08-26T05:33:05Z"
     },
     {
       "id": "icon-lenexa-809",
@@ -121,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/809/",
-      "scraped_at": "2026-08-25T05:30:17Z"
+      "scraped_at": "2026-08-26T05:33:07Z"
     },
     {
       "id": "icon-lenexa-815",
@@ -145,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/815/",
-      "scraped_at": "2026-08-25T05:30:19Z"
+      "scraped_at": "2026-08-26T05:33:08Z"
     },
     {
       "id": "celerion-lincoln-ca49448-1-0x000000000000710f-19",
@@ -169,7 +169,31 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://helpresearch.com/medical-study/ca49448-1-0x000000000000710f-19",
-      "scraped_at": "2026-08-25T05:30:39Z"
+      "scraped_at": "2026-08-26T05:33:28Z"
+    },
+    {
+      "id": "celerion-lincoln-ca52818-2-0x000000000000707f",
+      "clinic": "Celerion",
+      "location": "Lincoln, NE",
+      "state": "NE",
+      "title": "CA52818-2: Healthy Normal Male and Female",
+      "compensation": 6000,
+      "compensation_raw": "up to $6,000.00",
+      "study_type": "mixed",
+      "nights": 2,
+      "visits": 5,
+      "screening_date_raw": null,
+      "dates_raw": "Start: September 16, 2026 - 3:15pm; End: November 12, 2026 - 9:15am",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 19,
+      "age_max": 55,
+      "age_raw": "19 - 55",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://helpresearch.com/medical-study/ca52818-2-0x000000000000707f",
+      "scraped_at": "2026-08-26T05:33:37Z"
     },
     {
       "id": "abbvie-grayslake-buffalo",
@@ -193,7 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-25T05:30:46Z"
+      "scraped_at": "2026-08-26T05:33:45Z"
     },
     {
       "id": "abbvie-grayslake-rye",
@@ -217,7 +241,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-25T05:30:46Z"
+      "scraped_at": "2026-08-26T05:33:45Z"
     },
     {
       "id": "abbvie-grayslake-fawn",
@@ -241,7 +265,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-08-25T05:30:46Z"
+      "scraped_at": "2026-08-26T05:33:45Z"
     }
   ]
 }
