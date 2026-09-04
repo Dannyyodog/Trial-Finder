@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-03T09:28:45Z",
+  "generated_at": "2026-09-04T09:20:58Z",
   "clinic_count": 5,
-  "study_count": 19,
+  "study_count": 21,
   "studies": [
     {
       "id": "spaulding-zenith",
@@ -25,7 +25,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/zenith/",
-      "scraped_at": "2026-09-03T09:27:00Z"
+      "scraped_at": "2026-09-04T09:19:04Z"
     },
     {
       "id": "spaulding-montgomery",
@@ -49,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/montgomery/",
-      "scraped_at": "2026-09-03T09:27:01Z"
+      "scraped_at": "2026-09-04T09:19:06Z"
     },
     {
       "id": "spaulding-opalpart2",
@@ -73,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/opalpart2/",
-      "scraped_at": "2026-09-03T09:27:03Z"
+      "scraped_at": "2026-09-04T09:19:07Z"
     },
     {
       "id": "spaulding-penny",
@@ -97,7 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/penny/",
-      "scraped_at": "2026-09-03T09:27:05Z"
+      "scraped_at": "2026-09-04T09:19:09Z"
     },
     {
       "id": "spaulding-quill",
@@ -121,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/quill/",
-      "scraped_at": "2026-09-03T09:27:06Z"
+      "scraped_at": "2026-09-04T09:19:11Z"
     },
     {
       "id": "spaulding-thunder-2",
@@ -145,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.spauldingpays.com/study/thunder-2/",
-      "scraped_at": "2026-09-03T09:27:08Z"
+      "scraped_at": "2026-09-04T09:19:12Z"
     },
     {
       "id": "fortrea-madison-781236-clinical-research-study-adults-glp-1-medication",
@@ -169,7 +169,31 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/781236-clinical-research-study-adults-glp-1-medication",
-      "scraped_at": "2026-09-03T09:27:13Z"
+      "scraped_at": "2026-09-04T09:19:17Z"
+    },
+    {
+      "id": "fortrea-madison-782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed",
+      "clinic": "Fortrea",
+      "location": "Madison, WI",
+      "state": "WI",
+      "title": "Healthy Men and Women of Non-Childbearing Potential, age 18-55 needed",
+      "compensation": 8230,
+      "compensation_raw": "$8,230",
+      "study_type": "inpatient",
+      "nights": 14,
+      "visits": 0,
+      "screening_date_raw": null,
+      "dates_raw": "Oct 07 2026-Oct 29 2026; Cohort B | Check-in: Oct 7 | Check-out: Oct 21 | Follow-up visit: Oct 29",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 18,
+      "age_max": 55,
+      "age_raw": "18-55",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": true,
+      "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/782781-healthy-men-and-women-non-childbearing-potential-age-18-55-needed",
+      "scraped_at": "2026-09-04T09:19:23Z"
     },
     {
       "id": "fortrea-madison-778951-stay-change",
@@ -193,7 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-stay-change",
-      "scraped_at": "2026-09-03T09:27:20Z"
+      "scraped_at": "2026-09-04T09:19:26Z"
     },
     {
       "id": "fortrea-madison-782781-healthy-men-and-women-non-childbearing-potential-age-18-55",
@@ -217,7 +241,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/782781-healthy-men-and-women-non-childbearing-potential-age-18-55",
-      "scraped_at": "2026-09-03T09:27:23Z"
+      "scraped_at": "2026-09-04T09:19:28Z"
     },
     {
       "id": "icon-lenexa-737",
@@ -241,7 +265,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/737/",
-      "scraped_at": "2026-09-03T09:28:04Z"
+      "scraped_at": "2026-09-04T09:20:07Z"
     },
     {
       "id": "icon-lenexa-761",
@@ -265,7 +289,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/761/",
-      "scraped_at": "2026-09-03T09:28:06Z"
+      "scraped_at": "2026-09-04T09:20:08Z"
     },
     {
       "id": "icon-lenexa-789",
@@ -289,7 +313,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/789/",
-      "scraped_at": "2026-09-03T09:28:07Z"
+      "scraped_at": "2026-09-04T09:20:10Z"
     },
     {
       "id": "icon-lenexa-806",
@@ -313,21 +337,21 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/806/",
-      "scraped_at": "2026-09-03T09:28:09Z"
+      "scraped_at": "2026-09-04T09:20:12Z"
     },
     {
-      "id": "celerion-lincoln-ca50971-2a-0x0000000000006f73-1",
+      "id": "celerion-lincoln-ca50644-5a-0x0000000000006ed8-0",
       "clinic": "Celerion",
       "location": "Lincoln, NE",
       "state": "NE",
-      "title": "CA50971-2: Healthy Normal Male and Female",
-      "compensation": 5750,
-      "compensation_raw": "up to $5,750.00",
-      "study_type": "inpatient",
-      "nights": 10,
-      "visits": null,
+      "title": "CA50644-5: Healthy Normal Male and Female",
+      "compensation": 3000,
+      "compensation_raw": "up to $3,000.00",
+      "study_type": "mixed",
+      "nights": 4,
+      "visits": 1,
       "screening_date_raw": null,
-      "dates_raw": "Start: September 15, 2026 - 1:30pm; End: October 15, 2026 - 11:00am",
+      "dates_raw": "Start: September 10, 2026 - 2:15pm; End: September 20, 2026 - 8:45am",
       "sex": "ALL",
       "sex_notes": null,
       "age_min": 19,
@@ -335,23 +359,23 @@
       "age_raw": "19 - 55",
       "healthy": true,
       "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://helpresearch.com/medical-study/ca50971-2a-0x0000000000006f73-1",
-      "scraped_at": "2026-09-03T09:28:29Z"
+      "flag_childbearing": false,
+      "url": "https://helpresearch.com/medical-study/ca50644-5a-0x0000000000006ed8-0",
+      "scraped_at": "2026-09-04T09:20:31Z"
     },
     {
-      "id": "celerion-lincoln-ca50971-2b-0x0000000000006f74",
+      "id": "celerion-lincoln-ca50644-6-0x0000000000006ed9",
       "clinic": "Celerion",
       "location": "Lincoln, NE",
       "state": "NE",
-      "title": "CA50971-2: Healthy Normal Male and Female",
-      "compensation": 5750,
-      "compensation_raw": "up to $5,750.00",
-      "study_type": "inpatient",
-      "nights": 10,
-      "visits": null,
+      "title": "CA50644-6: Healthy Normal Male and Female",
+      "compensation": 3000,
+      "compensation_raw": "up to $3,000.00",
+      "study_type": "mixed",
+      "nights": 4,
+      "visits": 1,
       "screening_date_raw": null,
-      "dates_raw": "Start: September 22, 2026 - 1:45pm; End: October 22, 2026 - 11:15am",
+      "dates_raw": "Start: September 24, 2026 - 2:00pm; End: October 4, 2026 - 8:30am",
       "sex": "ALL",
       "sex_notes": null,
       "age_min": 19,
@@ -359,9 +383,33 @@
       "age_raw": "19 - 55",
       "healthy": true,
       "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://helpresearch.com/medical-study/ca50971-2b-0x0000000000006f74",
-      "scraped_at": "2026-09-03T09:28:39Z"
+      "flag_childbearing": false,
+      "url": "https://helpresearch.com/medical-study/ca50644-6-0x0000000000006ed9",
+      "scraped_at": "2026-09-04T09:20:41Z"
+    },
+    {
+      "id": "celerion-lincoln-ca50644-6a-0x0000000000006eda",
+      "clinic": "Celerion",
+      "location": "Lincoln, NE",
+      "state": "NE",
+      "title": "CA50644-6: Healthy Normal Male and Female",
+      "compensation": 3000,
+      "compensation_raw": "up to $3,000.00",
+      "study_type": "mixed",
+      "nights": 4,
+      "visits": 1,
+      "screening_date_raw": null,
+      "dates_raw": "Start: September 27, 2026 - 2:15pm; End: October 7, 2026 - 8:45am",
+      "sex": "ALL",
+      "sex_notes": null,
+      "age_min": 19,
+      "age_max": 55,
+      "age_raw": "19 - 55",
+      "healthy": true,
+      "flag_spinal": false,
+      "flag_childbearing": false,
+      "url": "https://helpresearch.com/medical-study/ca50644-6a-0x0000000000006eda",
+      "scraped_at": "2026-09-04T09:20:50Z"
     },
     {
       "id": "abbvie-grayslake-buffalo",
@@ -385,7 +433,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-09-03T09:28:45Z"
+      "scraped_at": "2026-09-04T09:20:58Z"
     },
     {
       "id": "abbvie-grayslake-warthog",
@@ -409,7 +457,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-09-03T09:28:45Z"
+      "scraped_at": "2026-09-04T09:20:58Z"
     },
     {
       "id": "abbvie-grayslake-rocky",
@@ -433,7 +481,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-09-03T09:28:45Z"
+      "scraped_at": "2026-09-04T09:20:58Z"
     },
     {
       "id": "abbvie-grayslake-rye",
@@ -457,7 +505,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-09-03T09:28:45Z"
+      "scraped_at": "2026-09-04T09:20:58Z"
     }
   ]
 }
