@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-02T10:55:32Z",
+  "generated_at": "2026-10-03T10:13:52Z",
   "clinic_count": 4,
-  "study_count": 18,
+  "study_count": 13,
   "studies": [
     {
       "id": "fortrea-madison-781236-clinical-research-study-adults-glp-1-medication",
@@ -25,7 +25,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/781236-clinical-research-study-adults-glp-1-medication",
-      "scraped_at": "2026-10-02T10:52:59Z"
+      "scraped_at": "2026-10-03T10:11:57Z"
     },
     {
       "id": "fortrea-madison-782781-healthy-men-and-women-non-childbearing-potential-age-18-55",
@@ -49,7 +49,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/782781-healthy-men-and-women-non-childbearing-potential-age-18-55",
-      "scraped_at": "2026-10-02T10:53:04Z"
+      "scraped_at": "2026-10-03T10:12:02Z"
     },
     {
       "id": "fortrea-madison-778951-stay-change",
@@ -73,7 +73,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://www.fortreaclinicaltrials.com/en-us/clinical-research/778951-stay-change",
-      "scraped_at": "2026-10-02T10:53:10Z"
+      "scraped_at": "2026-10-03T10:12:05Z"
     },
     {
       "id": "icon-lenexa-737",
@@ -97,55 +97,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/737/",
-      "scraped_at": "2026-10-02T10:53:55Z"
-    },
-    {
-      "id": "icon-lenexa-763",
-      "clinic": "ICON Early Phase",
-      "location": "Lenexa, KS",
-      "state": "KS",
-      "title": "Clinical Research Study of an Investigational Medication in Overweight but Otherwise Healthy Volunteers",
-      "compensation": 4400,
-      "compensation_raw": "Up to $4400",
-      "study_type": "mixed",
-      "nights": 6,
-      "visits": 1,
-      "screening_date_raw": null,
-      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 6 nights and 1 follow-up visit.",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18-55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": true,
-      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/763/",
-      "scraped_at": "2026-10-02T10:53:56Z"
-    },
-    {
-      "id": "icon-lenexa-792",
-      "clinic": "ICON Early Phase",
-      "location": "Lenexa, KS",
-      "state": "KS",
-      "title": "Clinical Research Study of an Investigational Medication in Healthy Participants",
-      "compensation": 13850,
-      "compensation_raw": "Up to $13850",
-      "study_type": "mixed",
-      "nights": 9,
-      "visits": 3,
-      "screening_date_raw": null,
-      "dates_raw": "Participation in this study includes 1 screening visit, 1 stay of 9 nights and 3 outpatient visits.",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 18,
-      "age_max": 55,
-      "age_raw": "18-55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/792/",
-      "scraped_at": "2026-10-02T10:53:58Z"
+      "scraped_at": "2026-10-03T10:12:47Z"
     },
     {
       "id": "icon-lenexa-804",
@@ -169,7 +121,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://iconstudies.com/Lenexa/Clinical-Research-Study/804/",
-      "scraped_at": "2026-10-02T10:54:00Z"
+      "scraped_at": "2026-10-03T10:12:49Z"
     },
     {
       "id": "celerion-lincoln-ca48121-2a-0x0000000000007284",
@@ -193,7 +145,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://helpresearch.com/medical-study/ca48121-2a-0x0000000000007284",
-      "scraped_at": "2026-10-02T10:54:19Z"
+      "scraped_at": "2026-10-03T10:13:09Z"
     },
     {
       "id": "celerion-lincoln-ca48121-2-0x0000000000007283-0",
@@ -217,7 +169,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://helpresearch.com/medical-study/ca48121-2-0x0000000000007283-0",
-      "scraped_at": "2026-10-02T10:54:29Z"
+      "scraped_at": "2026-10-03T10:13:18Z"
     },
     {
       "id": "celerion-lincoln-ca50785-6b-0x0000000000006bf0",
@@ -241,55 +193,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://helpresearch.com/medical-study/ca50785-6b-0x0000000000006bf0",
-      "scraped_at": "2026-10-02T10:54:38Z"
-    },
-    {
-      "id": "celerion-lincoln-ca52371-1a-0x0000000000007160-1",
-      "clinic": "Celerion",
-      "location": "Lincoln, NE",
-      "state": "NE",
-      "title": "CA52371-1: Healthy Normal Male and Female",
-      "compensation": 3000,
-      "compensation_raw": "up to $3,000.00",
-      "study_type": "mixed",
-      "nights": 4,
-      "visits": 1,
-      "screening_date_raw": null,
-      "dates_raw": "Start: October 8, 2026 - 3:00pm; End: October 16, 2026 - 9:30am",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 19,
-      "age_max": 55,
-      "age_raw": "19 - 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://helpresearch.com/medical-study/ca52371-1a-0x0000000000007160-1",
-      "scraped_at": "2026-10-02T10:54:47Z"
-    },
-    {
-      "id": "celerion-lincoln-ca50785-6-0x0000000000006bee-1",
-      "clinic": "Celerion",
-      "location": "Lincoln, NE",
-      "state": "NE",
-      "title": "CA50785-6: Healthy Normal Male and Female",
-      "compensation": 3250,
-      "compensation_raw": "up to $3,250.00",
-      "study_type": "mixed",
-      "nights": 3,
-      "visits": 2,
-      "screening_date_raw": null,
-      "dates_raw": "Start: October 14, 2026 - 2:00pm; End: October 22, 2026 - 8:30am",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 19,
-      "age_max": 55,
-      "age_raw": "19 - 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://helpresearch.com/medical-study/ca50785-6-0x0000000000006bee-1",
-      "scraped_at": "2026-10-02T10:54:56Z"
+      "scraped_at": "2026-10-03T10:13:28Z"
     },
     {
       "id": "celerion-lincoln-ca48121-3-0x0000000000007285-0",
@@ -313,7 +217,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://helpresearch.com/medical-study/ca48121-3-0x0000000000007285-0",
-      "scraped_at": "2026-10-02T10:55:05Z"
+      "scraped_at": "2026-10-03T10:13:37Z"
     },
     {
       "id": "celerion-lincoln-ca48121-3a-0x0000000000007286",
@@ -337,31 +241,7 @@
       "flag_spinal": false,
       "flag_childbearing": true,
       "url": "https://helpresearch.com/medical-study/ca48121-3a-0x0000000000007286",
-      "scraped_at": "2026-10-02T10:55:14Z"
-    },
-    {
-      "id": "celerion-lincoln-ca50785-6a-0x0000000000006bef-0",
-      "clinic": "Celerion",
-      "location": "Lincoln, NE",
-      "state": "NE",
-      "title": "CA50785-6: Healthy Normal Male and Female",
-      "compensation": 3250,
-      "compensation_raw": "up to $3,250.00",
-      "study_type": "mixed",
-      "nights": 3,
-      "visits": 2,
-      "screening_date_raw": null,
-      "dates_raw": "Start: October 21, 2026 - 2:15pm; End: October 29, 2026 - 8:45am",
-      "sex": "ALL",
-      "sex_notes": null,
-      "age_min": 19,
-      "age_max": 55,
-      "age_raw": "19 - 55",
-      "healthy": true,
-      "flag_spinal": false,
-      "flag_childbearing": false,
-      "url": "https://helpresearch.com/medical-study/ca50785-6a-0x0000000000006bef-0",
-      "scraped_at": "2026-10-02T10:55:24Z"
+      "scraped_at": "2026-10-03T10:13:46Z"
     },
     {
       "id": "abbvie-grayslake-buffalo",
@@ -385,7 +265,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-10-02T10:55:32Z"
+      "scraped_at": "2026-10-03T10:13:52Z"
     },
     {
       "id": "abbvie-grayslake-rocky",
@@ -409,7 +289,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-10-02T10:55:32Z"
+      "scraped_at": "2026-10-03T10:13:52Z"
     },
     {
       "id": "abbvie-grayslake-elephant",
@@ -433,7 +313,7 @@
       "flag_spinal": false,
       "flag_childbearing": false,
       "url": "https://www.abbviephase1.com/#/available-trials",
-      "scraped_at": "2026-10-02T10:55:32Z"
+      "scraped_at": "2026-10-03T10:13:52Z"
     }
   ]
 }
